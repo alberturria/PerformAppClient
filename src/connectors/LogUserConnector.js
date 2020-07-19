@@ -8,11 +8,11 @@ export default class LogUserConnector extends LogUserConnectorInterface {
         this.email = email;
         this.password = password;
         this.userId = null;
-        this.url = `https://performapp.herokuapp.com/log-user`;
+        this.url = `${process.env.REACT_APP_URL}log-user`;
     }
 
     logUser() {
-      /*
+      
         axios.defaults.xsrfHeaderName = "X-CSRFToken";
         axios.defaults.xsrfCookieName = 'csrftoken';
         const data = {email: this.email, password: this.password}
@@ -31,9 +31,9 @@ export default class LogUserConnector extends LogUserConnectorInterface {
           this.userInfo = {userId: response.data.user_id, username: response.data.username };
         })
         .catch(error => this.userInfo = {userId: null, username: null })
-        */
+        
 
-       const data = {email: this.email, password: this.password}
+       /*const data = {email: this.email, password: this.password}
        
        return fetch(this.url, {
          method: 'POST', // or 'PUT'
@@ -49,7 +49,8 @@ export default class LogUserConnector extends LogUserConnectorInterface {
         console.log('Success:', response)
         );
       }
-
+*/
+    }
       
 
     getUserId(){
