@@ -31,25 +31,6 @@ export default class LogUserConnector extends LogUserConnectorInterface {
           this.userInfo = {userId: response.data.user_id, username: response.data.username };
         })
         .catch(error => this.userInfo = {userId: null, username: null })
-        
-
-       /*const data = {email: this.email, password: this.password}
-       
-       return fetch(this.url, {
-         method: 'POST', // or 'PUT'
-         body: JSON.stringify(data), // data can be `string` or {object}!
-         headers:{
-           'Content-Type': 'application/json'
-         }
-       }).then(res => res.json())
-       .catch(error => 
-        console.error('Error:', error)
-        )
-       .then(response => 
-        console.log('Success:', response)
-        );
-      }
-*/
     }
       
 

@@ -6,6 +6,7 @@ import GetAllSuitesUseCase from "../useCases/GetAllSuitesUseCase";
 import SuiteElementListComponent from "./SuiteElementListComponent";
 import GetSuiteUseCase from "../useCases/GetSuiteUseCase";
 import DetailedSuiteComponent from "./DetailedSuiteComponent";
+import NoSuitesComponent from "./NoSuitesComponent";
 
 
 class SuitesMainPaneComponent extends Component{
@@ -22,9 +23,14 @@ class SuitesMainPaneComponent extends Component{
         this.loadSuite = this.loadSuite.bind(this);
         this._closeDetailedSuite = this._closeDetailedSuite.bind(this);
         this.getOrCreateRef = this.getOrCreateRef.bind(this);
+        this.loadAllSuites = this.loadAllSuites.bind(this);
     }
 
     componentDidMount() {
+        this.loadAllSuites();
+    }
+
+    loadAllSuites() {
         const { userEntity } = this.props;
         this.setState({ loading: true });
         const getAllSuitesUseCase = new GetAllSuitesUseCase(userEntity.userId);
@@ -63,6 +69,7 @@ class SuitesMainPaneComponent extends Component{
 
     _renderSuites() {
         const { loading, suites } = this.state;
+        const { userEntity } = this.props;
         if( loading ){
             return (
                 <Spinner animation="border" role="status">
@@ -78,14 +85,24 @@ class SuitesMainPaneComponent extends Component{
         if (suites !== null && loading === false)
         {
             const renderedSuites = suites.map((suite, key) =>
-                <SuiteElementListComponent key={key} suiteEntity={suite} loadSuiteCallback={this.loadSuite} ref={this.getOrCreateRef(suite.id)} />
+                <SuiteElementListComponent
+                key={key} suiteEntity={suite}
+                loadSuiteCallback={this.loadSuite}
+                ref={this.getOrCreateRef(suite.id)}
+                reloadSuitesCallback={this.loadAllSuites}
+                />
             );
-            return(
-                <ul className='suite-ul'>
-                    { renderedSuites }
-                </ul>
-            );
-
+            if(renderedSuites.length > 0){
+                return(
+                    <ul className='suite-ul'>
+                        { renderedSuites }
+                    </ul>
+                );
+            }else{
+                return(
+                    <NoSuitesComponent userEntity={userEntity} reloadSuitesCallback={this.loadAllSuites}/>
+                );
+            }
         }
     }
 

@@ -18,10 +18,13 @@ class SuiteElementListComponent extends Component{
     }
 
     _deleteSuite(closeCallback) {
-        const { suiteEntity } = this.props;
+        const { suiteEntity, reloadSuitesCallback } = this.props;
         const deleteSuiteUseCase = new DeleteSuiteUseCase(suiteEntity.userId, suiteEntity.id);
         deleteSuiteUseCase.run()
-        .then(()=> closeCallback())
+        .then(()=> {
+            closeCallback();
+            reloadSuitesCallback();
+        });
     }
 
     _loadSuiteCallback(){
@@ -44,16 +47,18 @@ class SuiteElementListComponent extends Component{
     render() {
         const {suiteEntity} = this.props;
         return (
-            <li className="suite-li" onClick={this._loadSuiteCallback}>
-                {this._renderSpinnerIfNeeded()}
-                <div className="suite-name">
-                    {suiteEntity.name}
-                </div>
-                <div className="suite-date">
-                    {suiteEntity.date}
-                </div>
-                <div className="suite-owner">
-                    {suiteEntity.username}
+            <li className="suite-li">
+                <div className="suite-li-div" onClick={this._loadSuiteCallback}>
+                    {this._renderSpinnerIfNeeded()}
+                    <div className="suite-name">
+                        {suiteEntity.name}
+                    </div>
+                    <div className="suite-date">
+                        {suiteEntity.date}
+                    </div>
+                    <div className="suite-owner">
+                        {suiteEntity.username}
+                    </div>
                 </div>
                 <Popup className="own-popup" trigger={<button className="modal-button modal-logout-button"> Borrar </button>} modal>
                     {close => (
@@ -96,4 +101,5 @@ export default SuiteElementListComponent
 SuiteElementListComponent.propTypes = {
     suiteEntity: PropTypes.instanceOf(SuiteEntity),
     loadSuiteCallback: PropTypes.func.isRequired,
+    reloadSuitesCallback: PropTypes.func.isRequired,
 }

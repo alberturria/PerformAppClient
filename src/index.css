@@ -377,6 +377,10 @@ li a {
   padding: 0 40px;
 }
 
+.suite-li-div {
+  display: inherit;
+}
+
 .suite-ul {
   display: inline-flex;
   flex-direction: column;
