@@ -4,6 +4,7 @@ import Popup from "reactjs-popup";
 import SuiteEntity from "../entities/SuiteEntity";
 import DeleteSuiteUseCase from "../useCases/DeleteSuiteUseCase";
 import Spinner from "react-bootstrap/Spinner";
+import ExportSuiteUseCase from "../useCases/ExportSuiteUseCase";
 
 
 
@@ -15,6 +16,7 @@ class SuiteElementListComponent extends Component{
         this.state = {loading: false};
 
         this._loadSuiteCallback = this._loadSuiteCallback.bind(this);
+        this._exportToPDF = this._exportToPDF.bind(this);
     }
 
     _deleteSuite(closeCallback) {
@@ -33,6 +35,13 @@ class SuiteElementListComponent extends Component{
         loadSuiteCallback(suiteEntity.id)
 
     }
+
+    _exportToPDF() {
+        const { suiteEntity } = this.props;
+        const exportSuiteUseCase = new ExportSuiteUseCase(suiteEntity.userId, suiteEntity.id);
+        exportSuiteUseCase.run();
+    }
+
     _renderSpinnerIfNeeded() {
         const {loading} = this.state;
         if( loading ){
@@ -60,6 +69,9 @@ class SuiteElementListComponent extends Component{
                         {suiteEntity.username}
                     </div>
                 </div>
+                <button className="modal-button" onClick={this._exportToPDF}>
+                    Export
+                </button>
                 <Popup className="own-popup" trigger={<button className="modal-button modal-logout-button"> Borrar </button>} modal>
                     {close => (
                     <div>
