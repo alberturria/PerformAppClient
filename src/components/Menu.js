@@ -9,6 +9,7 @@ import UserEntity from "../entities/UserEntity";
 import InformativeMainPaneComponent from "./InformativeMainPaneComponent";
 import DataMainPaneComponent from "./DataMainPaneComponent";
 import SuitesMainPaneComponent from "./SuitesMainPaneComponent";
+import PatientsMainPaneComponent from "./PatientsMainPaneComponent";
 
 
 class Menu extends Component {
@@ -22,8 +23,10 @@ class Menu extends Component {
 
     this._showInicio = this._showInicio.bind(this);
     this._renderSavedWaves = this._renderSavedWaves.bind(this);
+    this._selectInitTab = this._selectInitTab.bind(this);
     this._selectDatosTab = this._selectDatosTab.bind(this);
     this._selectPruebasTab = this._selectPruebasTab.bind(this);
+    this._selectPacientesTab = this._selectPacientesTab.bind(this);
     this._renderMainPane = this._renderMainPane.bind(this);
   }
 
@@ -47,6 +50,14 @@ class Menu extends Component {
 
   _selectPruebasTab() {
     this.setState({selectedTab: 2});
+  }
+
+  _selectPacientesTab() {
+    this.setState({selectedTab: 1})
+  }
+
+  _selectInitTab() {
+    this.setState({selectedTab: 0})
   }
 
   _renderSavedWaves() {
@@ -79,39 +90,42 @@ class Menu extends Component {
       return (<DataMainPaneComponent userEntity={userEntity}/>);
     } else if(selectedTab === 2){
       return (<SuitesMainPaneComponent userEntity={userEntity}/>);
+    } else if(selectedTab === 1){
+      return (<PatientsMainPaneComponent userEntity={userEntity}/>);
+    } else if(selectedTab === 0){  
+      return (<InformativeMainPaneComponent userEntity={userEntity}/>);
     }
-    return (<InformativeMainPaneComponent userEntity={userEntity}/>);
   }
 
   render() {
     const { logOutCallback } = this.props;
     return (
       <React.Fragment>
-        <div className='nav-main'>
           <div className='nav-logo'>
           </div>
-          <div >
-            <ul className='nav-main-list'>
-              <li className='nav-main-list-li'>
-                <button className='nav-main-list-button'>Inicio</button>
-              </li>
-              <li className='nav-main-list-li'>
+          <div className='nav-main'>
+              <a className='nav-main-list-li'>
+                <button className='nav-main-list-button' onClick={this._selectInitTab}>Inicio</button>
+              </a>
+              <a className='nav-main-list-li'>
+                <button className='nav-main-list-button' onClick={this._selectPacientesTab}>Pacientes</button>
+              </a>
+              <a className='nav-main-list-li'>
                 <button className='nav-main-list-button' onClick={this._selectPruebasTab}>Pruebas</button>
-              </li>
-              <li className='nav-main-list-li'>
+              </a>
+              <a className='nav-main-list-li'>
                 <button className='nav-main-list-button' onClick={this._selectDatosTab}>Datos</button>
-              </li>
-            </ul>
+              </a>
+              <a className='nav-main-list-li'>
+                <button className='nav-main-list-button' onClick={this._selectPruebasTab}>Diagnóstico</button>
+              </a>
 
-            <ul className='nav-second-list'>
-              <li className='nav-main-list-li'>
+              <a className='nav-main-list-li'>
                 <LogOutComponent logOutCallback={logOutCallback} />
-              </li>
-            </ul>
+              </a>
 
           </div>
 
-        </div>
        {this._renderMainPane()}
       </React.Fragment>
     );

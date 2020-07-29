@@ -14,7 +14,7 @@ class LogOutComponent extends Component{
     render() {
         const { logOutCallback } = this.props;
         return (
-            <Popup className="own-popup" trigger={<button className="nav-main-list-button logout-button"> Logout </button>} modal>
+            <Popup className="own-popup" trigger={<button className="nav-main-list-button"> Cerrar Sesión </button>} modal>
             {close => (
             <div>
                 <a className="close" onClick={close}>
