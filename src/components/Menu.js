@@ -10,6 +10,7 @@ import InformativeMainPaneComponent from "./InformativeMainPaneComponent";
 import DataMainPaneComponent from "./DataMainPaneComponent";
 import SuitesMainPaneComponent from "./SuitesMainPaneComponent";
 import PatientsMainPaneComponent from "./PatientsMainPaneComponent";
+import DiagnosisMainPaneComponent from "./DiagnosisMainPaneComponent.js";
 
 
 class Menu extends Component {
@@ -27,6 +28,7 @@ class Menu extends Component {
     this._selectDatosTab = this._selectDatosTab.bind(this);
     this._selectPruebasTab = this._selectPruebasTab.bind(this);
     this._selectPacientesTab = this._selectPacientesTab.bind(this);
+    this._selectDiagnosticosTab = this._selectDiagnosticosTab.bind(this);
     this._renderMainPane = this._renderMainPane.bind(this);
   }
 
@@ -42,6 +44,10 @@ class Menu extends Component {
         const savedWaves = getSavedWavesUseCase.getSavedWaves();
         this.setState({savedWaves: savedWaves});
       });
+  }
+
+  _selectDiagnosticosTab() {
+    this.setState({selectedTab: 4});
   }
 
   _selectDatosTab() {
@@ -86,7 +92,9 @@ class Menu extends Component {
     const { userEntity } = this.props;
     const { selectedTab } = this.state;
 
-    if(selectedTab === 3){
+    if( selectedTab === 4) {
+      return (<DiagnosisMainPaneComponent userEntity={userEntity}/>);
+    } else if(selectedTab === 3){
       return (<DataMainPaneComponent userEntity={userEntity}/>);
     } else if(selectedTab === 2){
       return (<SuitesMainPaneComponent userEntity={userEntity}/>);
@@ -117,7 +125,7 @@ class Menu extends Component {
                 <button className='nav-main-list-button' onClick={this._selectDatosTab}>Datos</button>
               </a>
               <a className='nav-main-list-li'>
-                <button className='nav-main-list-button' onClick={this._selectPruebasTab}>Diagnóstico</button>
+                <button className='nav-main-list-button' onClick={this._selectDiagnosticosTab}>Diagnósticos</button>
               </a>
 
               <a className='nav-main-list-li'>

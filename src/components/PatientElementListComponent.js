@@ -16,6 +16,7 @@ class PatientElementListComponent extends Component{
         this.state = {loading: false};
 
         this._loadPatientCallback = this._loadPatientCallback.bind(this);
+        this._editPatientCallback = this._editPatientCallback.bind(this);
     }
 
     _deletePatient(closeCallback) {
@@ -26,6 +27,12 @@ class PatientElementListComponent extends Component{
             closeCallback();
             reloadPatientsCallback();
         });
+    }
+
+    _editPatientCallback() {
+        const {patientEntity, editPatientCallback} = this.props;
+        this.setState({loading: true});
+        editPatientCallback(patientEntity.id)
     }
 
     _loadPatientCallback(){
@@ -56,12 +63,15 @@ class PatientElementListComponent extends Component{
                         {patientEntity.name}
                     </div>
                     <div className="suite-date">
-                        {patientEntity.email}
+                        {patientEntity.mail}
                     </div>
                     <div className="suite-owner">
                         {patientEntity.gender}
                     </div>
                 </div>
+                <button className="modal-button" onClick={this._editPatientCallback}>
+                    Editar
+                </button>
                 <Popup className="own-popup" trigger={<button className="modal-button modal-logout-button"> Borrar </button>} modal>
                     {close => (
                     <div>
@@ -105,4 +115,5 @@ PatientElementListComponent.propTypes = {
     userEntity: PropTypes.instanceOf(UserEntity),
     reloadPatientsCallback: PropTypes.func.isRequired,
     loadPatientCallback: PropTypes.func.isRequired,
+    editPatientCallback: PropTypes.func.isRequired,
 }

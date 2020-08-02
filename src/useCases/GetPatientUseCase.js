@@ -19,5 +19,9 @@ export default class GetPatientUseCase extends GetPatientUseCaseInterface {
         return this.getPatientConnector.getPatientEntity();
     }
 
+    getRelatedSuitesEntities() {
+        return this.getPatientConnector.getRelatedSuitesEntities();
+    }
+
 
 }

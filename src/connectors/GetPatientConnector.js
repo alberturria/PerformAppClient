@@ -2,6 +2,7 @@ import axios from 'axios';
 import WaveEntity from '../entities/WaveEntity';
 import PatientEntity from '../entities/PatientEntity';
 import GetPatientConnectorInterface from '../interfaces/connectors/GetPatientConnectorInterface';
+import SuiteEntity from '../entities/SuiteEntity';
 
 export default class GetPatientConnector extends GetPatientConnectorInterface{
     constructor(userId, patientId) {
@@ -24,8 +25,18 @@ export default class GetPatientConnector extends GetPatientConnectorInterface{
       })
         .then((response) => 
         {
-          const data = response.data.patient;
-          this.patientEntity = new PatientEntity(data.id, data.name, data.mail, data.gender, data.age, data.phone_number, data.photo, data.owner_id);
+          const patient = response.data.patient;
+          this.patientEntity = new PatientEntity(patient.id, patient.name, patient.mail, patient.gender, patient.age, patient.phone_number, patient.photo, patient.owner_id);
+
+          const returnedSuites = [];
+          const suites = response.data.suites
+          for (let index = 0; index < Object.keys(suites).length; index++){
+            const suiteEntity = new SuiteEntity(suites.data[index].id, suites.data[index].name, suites.data[index].date, suites.data[index].user_id, suites.data[index].username);
+            
+            returnedSuites.push(suiteEntity);
+          }
+  
+          this.suitesEntities = returnedSuites;
 
         })
         .catch(error => console.log(error))
@@ -34,6 +45,10 @@ export default class GetPatientConnector extends GetPatientConnectorInterface{
 
     getPatientEntity(){
       return this.patientEntity;
+    }
+
+    getRelatedSuitesEntities(){
+      return this.suitesEntities;
     }
 
     
