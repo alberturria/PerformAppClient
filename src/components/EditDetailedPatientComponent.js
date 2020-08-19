@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from 'prop-types';
 import UserEntity from "../entities/UserEntity";
 import PatientEntity from "../entities/PatientEntity";
-import NewPatientUseCase from "../useCases/NewPatientUseCase";
+import EditPatientUseCase from "../useCases/EditPatientUseCase";
 
 
 
@@ -35,19 +35,18 @@ class EditDetailedPatientComponent extends Component{
     }
 
     editPatient() {
-        const {userEntity} = this.props;
+        const {userEntity, patientEntity} = this.props;
         const { image } = this.state;
-        const patientInfo = new PatientEntity(null, this.nameRef.current.value, this.emailRef.current.value, this.genderRef.current.value,
+        const patientInfo = new PatientEntity(patientEntity.id, this.nameRef.current.value, this.emailRef.current.value, this.genderRef.current.value,
             this.ageRef.current.value, this.phoneRef.current.value, image , userEntity.userId)
-        const newPatientUseCase = new NewPatientUseCase(userEntity.userId, patientInfo);
-        newPatientUseCase.run()
+        const editPatientUseCase = new EditPatientUseCase(userEntity.userId, patientInfo);
+        editPatientUseCase.run()
     }
 
 
 
 
     render() {
-        const { patientEntity } = this.props;
         const { nameValue, mailValue, ageValue, phoneValue, genderValue } = this.state;
         return (
             <div className="main-pane">

@@ -17,6 +17,7 @@ class SuiteElementListComponent extends Component{
 
         this._loadSuiteCallback = this._loadSuiteCallback.bind(this);
         this._exportToPDF = this._exportToPDF.bind(this);
+        this._editSuiteCallback = this._editSuiteCallback.bind(this);
     }
 
     _deleteSuite(closeCallback) {
@@ -34,6 +35,12 @@ class SuiteElementListComponent extends Component{
         this.setState({loading: true});
         loadSuiteCallback(suiteEntity.id)
 
+    }
+
+    _editSuiteCallback() {
+        const {suiteEntity, editSuiteCallback} = this.props;
+        this.setState({loading: true});
+        editSuiteCallback(suiteEntity.id)
     }
 
     _exportToPDF() {
@@ -69,6 +76,9 @@ class SuiteElementListComponent extends Component{
                         {suiteEntity.username}
                     </div>
                 </div>
+                <button className="modal-button" onClick={this._editSuiteCallback}>
+                    Editar
+                </button>
                 <button className="modal-button" onClick={this._exportToPDF}>
                     Export
                 </button>
@@ -113,5 +123,6 @@ export default SuiteElementListComponent
 SuiteElementListComponent.propTypes = {
     suiteEntity: PropTypes.instanceOf(SuiteEntity),
     loadSuiteCallback: PropTypes.func.isRequired,
+    editSuiteCallback: PropTypes.func.isRequired,
     reloadSuitesCallback: PropTypes.func.isRequired,
 }

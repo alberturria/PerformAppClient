@@ -56,8 +56,8 @@ class DataMainPaneComponent extends Component{
                         ref={(input) => { this.filesInput = input }}
                         name="file"
                         icon='file text outline'
-                        label='Upload CSV'
-                        placeholder='UploadCSV...'
+                        label='csv'
+                        placeholder='Subir fichero'
                         onChange={this.handleChange}
                         />
                 </div>

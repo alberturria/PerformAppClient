@@ -7,6 +7,8 @@ import SuiteElementListComponent from "./SuiteElementListComponent";
 import GetSuiteUseCase from "../useCases/GetSuiteUseCase";
 import DetailedSuiteComponent from "./DetailedSuiteComponent";
 import NoSuitesComponent from "./NoSuitesComponent";
+import NewSuiteComponent from "./NewSuiteComponent";
+import EditDetailedSuiteComponent from "./EditDetailedSuiteComponent";
 
 
 class SuitesMainPaneComponent extends Component{
@@ -24,6 +26,8 @@ class SuitesMainPaneComponent extends Component{
         this._closeDetailedSuite = this._closeDetailedSuite.bind(this);
         this.getOrCreateRef = this.getOrCreateRef.bind(this);
         this.loadAllSuites = this.loadAllSuites.bind(this);
+        this._renderNewSuite = this._renderNewSuite.bind(this);
+        this.showEditSuite = this.showEditSuite.bind(this);
     }
 
     componentDidMount() {
@@ -62,8 +66,25 @@ class SuitesMainPaneComponent extends Component{
 
     }
 
+    showEditSuite(suiteId) {
+        const { userEntity } = this.props;
+        const getSuiteUseCase = new GetSuiteUseCase(userEntity.userId, suiteId); 
+        getSuiteUseCase.run()
+        .then(() => {
+            const suite = getSuiteUseCase.getSuiteEntity();
+            this.references[suiteId].current.setState({loading: false});
+
+            this.setState({loadedSuite: suite, editing: true});
+        });
+
+    }
+
     _closeDetailedSuite() {
         this.setState({loadSuite: null, loadedWaves: null});
+    }
+
+    _renderNewSuite() {
+        this.setState({ newSuite: true });
     }
 
 
@@ -90,6 +111,7 @@ class SuitesMainPaneComponent extends Component{
                 loadSuiteCallback={this.loadSuite}
                 ref={this.getOrCreateRef(suite.id)}
                 reloadSuitesCallback={this.loadAllSuites}
+                editSuiteCallback={this.showEditSuite}
                 />
             );
             if(renderedSuites.length > 0){
@@ -108,7 +130,16 @@ class SuitesMainPaneComponent extends Component{
 
 
     render() {
-        const { loadedSuite, loadedWaves } = this.state;
+        const { userEntity } = this.props;
+        const { loadedSuite, loadedWaves, newSuite, editing } = this.state;
+
+        if (newSuite){
+            return <NewSuiteComponent userEntity={userEntity} />
+        }
+
+        if(loadedSuite && editing) {
+            return <EditDetailedSuiteComponent suiteEntity={loadedSuite} userEntity={userEntity} closeDetailedSuiteCallback={this._closeDetailedSuite} />
+        }
         
         if (loadedSuite && loadedWaves){
             return <DetailedSuiteComponent suite={loadedSuite} waves={loadedWaves} closeDetailedSuiteCallback={this._closeDetailedSuite} />
@@ -117,8 +148,11 @@ class SuitesMainPaneComponent extends Component{
         return (
             <div className="main-pane">
                 <div className="informative-main-pane-header">
-                    Data
+                    Pruebas
                 </div>
+                <button className="modal-button" onClick={this._renderNewSuite}>
+                    Crear prueba
+                </button>
                 <div className='informative-main-pane-message'>
                     {this._renderSuites()}
                 </div>

@@ -9,6 +9,7 @@ import GetAllPatientsUseCase from "../useCases/GetAllPatientsUseCase.js";
 import GetPatientUseCase from "../useCases/GetPatientUseCase";
 import DetailedPatientComponent from "./DetailedPatientComponent";
 import EditDetailedPatientComponent from "./EditDetailedPatientComponent";
+import CreateSamplePatientsUseCase from "../useCases/CreateSamplePatientsUseCase";
 
 
 class PatientsMainPaneComponent extends Component{
@@ -30,6 +31,8 @@ class PatientsMainPaneComponent extends Component{
         this.loadAllPatients = this.loadAllPatients.bind(this);
         this._renderNewPatient = this._renderNewPatient.bind(this);
         this._closeDetailedPatient = this._closeDetailedPatient.bind(this);
+        this._renderCreateSamplePatients = this._renderCreateSamplePatients.bind(this);
+        this._createSamplePatients = this._createSamplePatients.bind(this);
     }
 
     componentDidMount() {
@@ -88,6 +91,27 @@ class PatientsMainPaneComponent extends Component{
         this.setState({loadedPatient: null, loadedWaves: null});
     }
 
+    _createSamplePatients() {
+        const { userEntity } = this.props;
+        this.setState({ loading: true });
+        const createSamplePatientsUseCase = new CreateSamplePatientsUseCase(userEntity.userId);
+        createSamplePatientsUseCase.run()
+        .then(() => {
+            const patients = createSamplePatientsUseCase.getPatients();
+            this.setState({ patients: patients, loading:false });
+        });
+    }
+
+    _renderCreateSamplePatients() {
+        const { patients, loading } = this.state;
+        if ((!patients || patients.length === 0) && !loading) {
+            return (<button className="modal-button" onClick={this._createSamplePatients}>
+                    Usar datos de prueba
+            </button>
+            );
+        }
+    }
+
 
     _renderPatients() {
         const { loading, patients } = this.state;
@@ -122,10 +146,6 @@ class PatientsMainPaneComponent extends Component{
                         { renderedPatients }
                     </ul>
                 );
-            }else{
-                return(
-                    <NoSuitesComponent userEntity={userEntity} reloadSuitesCallback={this.loadAllPatients}/>
-                );
             }
         }
     }
@@ -155,6 +175,7 @@ class PatientsMainPaneComponent extends Component{
                 <button className="modal-button" onClick={this._renderNewPatient}>
                     Crear paciente
                 </button>
+                {this._renderCreateSamplePatients()}
                 <div className='informative-main-pane-message'>
                     {this._renderPatients()}
                 </div>
