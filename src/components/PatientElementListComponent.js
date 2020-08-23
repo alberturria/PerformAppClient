@@ -17,6 +17,7 @@ class PatientElementListComponent extends Component{
 
         this._loadPatientCallback = this._loadPatientCallback.bind(this);
         this._editPatientCallback = this._editPatientCallback.bind(this);
+        this._renderPatientGender = this._renderPatientGender.bind(this);
     }
 
     _deletePatient(closeCallback) {
@@ -46,33 +47,55 @@ class PatientElementListComponent extends Component{
         const {loading} = this.state;
         if( loading ){
             return (
+                <td>
                 <Spinner animation="border" role="status">
                     <span className="sr-only">Loading...</span>
                 </Spinner>
+                </td>
             )
+        }
+    }
+
+    _renderPatientGender() {
+        const {patientEntity} = this.props;
+        if(patientEntity.gender === 1){
+            return 'Hombre';
+        }
+        else if(patientEntity.gender === 2){
+            return 'Mujer';
+        }
+        else{
+            return 'Otro';
         }
     }
 
     render() {
         const {patientEntity} = this.props;
         return (
-            <li className="suite-li">
-                <div className="suite-li-div" onClick={this._loadPatientCallback}>
-                    {this._renderSpinnerIfNeeded()}
-                    <div className="suite-name">
+            <React.Fragment>
+                <tr>
+                    <td className="patient-name" onClick={this._loadPatientCallback}>
                         {patientEntity.name}
-                    </div>
-                    <div className="suite-date">
+                    </td>
+                    <td className="patient-mail" onClick={this._loadPatientCallback}>
                         {patientEntity.mail}
-                    </div>
-                    <div className="suite-owner">
-                        {patientEntity.gender}
-                    </div>
-                </div>
-                <button className="modal-button" onClick={this._editPatientCallback}>
-                    Editar
-                </button>
-                <Popup className="own-popup" trigger={<button className="modal-button modal-logout-button"> Borrar </button>} modal>
+                    </td>
+                    <td className="patient-gender" onClick={this._loadPatientCallback}>
+                        {this._renderPatientGender()}
+                    </td>
+                    <td className="patient-age" onClick={this._loadPatientCallback}>
+                        {patientEntity.age}
+                    </td>
+                    <td className="patient-phone" onClick={this._loadPatientCallback}>
+                        {patientEntity.phoneNumber}
+                    </td>
+                    <td>
+                        <button className="modal-button" onClick={this._editPatientCallback}>
+                            Editar
+                        </button>
+                    </td>
+                <td>
+                    <Popup className="own-popup" trigger={<button className="modal-button modal-logout-button"> Borrar </button>} modal>
                     {close => (
                     <div>
                         <a className="close" onClick={close}>
@@ -102,9 +125,11 @@ class PatientElementListComponent extends Component{
                         </div>
                     </div>
                     )}
-                </Popup>
-
-            </li>
+                    </Popup>
+                </td>
+                {this._renderSpinnerIfNeeded()}
+                </tr>
+            </React.Fragment>
         )
     }
 }

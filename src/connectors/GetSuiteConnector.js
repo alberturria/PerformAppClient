@@ -2,6 +2,7 @@ import axios from 'axios';
 import GetSuiteConnectorInterface from '../interfaces/connectors/GetSuiteConnectorInterface';
 import WaveEntity from '../entities/WaveEntity';
 import SuiteEntity from '../entities/SuiteEntity';
+import CustomFieldEntity from '../entities/CustomFieldEntity';
 
 export default class GetSuiteConnector extends GetSuiteConnectorInterface {
     constructor(userId, suiteId) {
@@ -24,7 +25,18 @@ export default class GetSuiteConnector extends GetSuiteConnectorInterface {
       })
         .then((response) => 
         {
-          this.suiteEntity = new SuiteEntity(response.data.suite.id, response.data.suite.name, response.data.suite.date, response.data.suite.user_id, response.data.suite.username);
+          const suite = response.data.suite;
+          const customFields = [];
+          if (suite.custom_fields && suite.custom_fields.length>0){
+             for (let indexCustomFields = 0; indexCustomFields < suite.custom_fields.length; indexCustomFields+=1){
+              customFields.push(new CustomFieldEntity(suite.custom_fields[indexCustomFields].id, suite.custom_fields[indexCustomFields].parameter,
+                suite.custom_fields[indexCustomFields].value, suite.custom_fields[indexCustomFields].suiteId))
+             }
+          }
+
+
+          this.suiteEntity = new SuiteEntity(response.data.suite.id, response.data.suite.name, response.data.suite.date, response.data.suite.user_id,
+            response.data.suite.username, suite.patient_id, suite.patient_name, suite.diagnosis_id, suite.diagnosis_name, null, suite.video, customFields, suite.type);
           this.wavesEntities = [];
 
           for (let index = 0; index < Object.keys(response.data.waves).length; index++){

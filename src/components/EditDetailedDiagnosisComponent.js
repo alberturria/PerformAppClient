@@ -4,6 +4,7 @@ import UserEntity from "../entities/UserEntity";
 import NewPatientUseCase from "../useCases/NewPatientUseCase";
 import DiagnosisEntity from "../entities/DiagnosisEntity";
 import EditDiagnosisUseCase from "../useCases/EditDiagnosisUseCase";
+import GetAllSuitesUseCase from "../useCases/GetAllSuitesUseCase";
 
 
 
@@ -27,6 +28,22 @@ class EditDetailedDiagnosisComponent extends Component{
         this.editDiagnosis = this.editDiagnosis.bind(this);
     }
 
+    componentDidMount() {
+        const { userEntity } = this.props;
+        this.setState({ loading: true });
+        const getAllSuitesUseCase = new GetAllSuitesUseCase(userEntity.userId);
+        getAllSuitesUseCase.run()
+        .then(() => {
+            const suites = getAllSuitesUseCase.getResult();
+            const suitesOptions = [];
+            suitesOptions.push(<option key={-1} value={null}></option>);
+            for (var k = 0; k < suites.length; k++) {
+                suitesOptions.push(<option key={k} value={suites[k].id}> {suites[k].name} </option>);
+            }
+            this.setState({ suitesOptions: suitesOptions, loading:false });
+        });
+    }
+
     handleChange = (event) => {
         this.setState({
             videoValue: event.target.files[0]
@@ -46,39 +63,53 @@ class EditDetailedDiagnosisComponent extends Component{
 
 
     render() {
-        const { nameValue, descriptionValue, suiteValue } = this.state;
+        const { nameValue, descriptionValue, suiteValue, suitesOptions } = this.state;
+        const { diagnosisEntity } = this.props;
         return (
             <div className="main-pane">
-                <p>
-                    Nombre:
-                </p>
-                <input ref={this.nameRef} defaultValue={nameValue} >
-                </input>
-                <p>
-                    Descripción:
-                </p>
-                <input ref={this.descriptionRef} defaultValue={descriptionValue}>
-                </input>
-                <p>
-                    Prueba relacionada:
-                </p>
-                <select ref={this.suiteRef} defaultValue={suiteValue}>
-                    <option value={null} selected></option> 
-                    <option value={2}>Mujer</option>
-                    <option value={3}>Otro</option>
-                </select>
-
-                <input
-                    type="file"
-                    ref={(input) => { this.filesInput = input }}
-                    name="file"
-                    accept="video/*"
-                    icon='file text outline'
-                    label='Subir vídeo del diagnóstico'
-                    placeholder='Subir vídeo'
-                    onChange={this.handleChange}
-                />
-
+                <div className="informative-main-pane-header">
+                    {diagnosisEntity.name}
+                </div>
+                <div className='detailed-diagnosis-container'>
+                    <div className='edit-diagnosis-container'>
+                        <label className='parameter'>
+                            Nombre:
+                        
+                            <input ref={this.nameRef} defaultValue={nameValue} className='input-parameter' >
+                            </input>
+                        </label>
+                        <label className='parameter'>
+                            Prueba relacionada:
+                            <select ref={this.suiteRef} defaultValue={suiteValue} className='input-parameter'>
+                                {suitesOptions}
+                            </select>
+                        </label>
+                    </div>
+                    <div className='edit-diagnosis-container'>
+                        <div className='video-diagnosis-container'>
+                            <label className='parameter'>
+                                Descripción:
+                            </label>
+                            <textarea ref={this.descriptionRef} defaultValue={descriptionValue} className='input-parameter diagnosis-description-textarea'>
+                            </textarea>
+                            </div>
+                        <label className='parameter'>
+                            Nuevo vídeo:
+                            <input
+                                type="file"
+                                ref={(input) => { this.filesInput = input }}
+                                name="file"
+                                accept="video/*"
+                                icon='file text outline'
+                                label='Subir vídeo del diagnóstico'
+                                placeholder='Subir vídeo'
+                                onChange={this.handleChange}
+                                className='input-parameter'
+                            />
+                        </label>
+                    </div>
+                </div>
+                
                 <button
                 className="modal-button"
                 onClick={this.editDiagnosis}>

@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import PropTypes from 'prop-types';
-import CanvasJSReact from "../canvasjs.react"
+import CanvasJSReact from "../canvasjs.react";
 var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
-class ChartComponent extends Component {
+
+class GroupSignalChartComponent extends Component {
     constructor(props){
         super(props);
         
@@ -29,41 +30,31 @@ class ChartComponent extends Component {
     }
 
     _parseData() {
-        const { data, start, secondData } = this.props;
+        const { data, start } = this.props;
 
         const parsedData = [];
+        for(let signalsIndex=0; signalsIndex < data.length; signalsIndex+=1){
+            const localParsedData = [];
+            for (let index = 0; index < data[signalsIndex].length; index +=1 ){
+                const tuple = {x: index + start, y: data[signalsIndex][index]};
 
-        for (let index = 0; index < data.length; index +=1 ){
-            const tuple = {x: index + start, y: data[index]};
-
-            parsedData.push(tuple);
+                localParsedData.push(tuple);
+            }
+            parsedData.push(localParsedData);
         }
-
         this.setState({
             dataPoints: parsedData,
         });
 
-        if (secondData){
-            const parsedData = [];
-            for (let index = 0; index < secondData.length; index +=1 ){
-                const tuple = {x: index + start, y: secondData[index]};
-    
-                parsedData.push(tuple);
-            }
-    
-            this.setState({
-                secondDataPoints: parsedData,
-            });
-        }
     }
 
 	render() {
 
-        const { dataPoints, secondDataPoints, stripLines } = this.state;
-        const { title } = this.props;
+        const { dataPoints, stripLines } = this.state;
+        const { title, names } = this.props;
         let options = {}
 
-        if (secondDataPoints) {
+        if (dataPoints) {
             options = {
                 animationEnabled: true,
                 animationDuration: 3000,
@@ -84,17 +75,33 @@ class ChartComponent extends Component {
                     yValueFormatString: "#,###",
                     xValueFormatString: "#(s)",
                     type: "splineArea",
-                    dataPoints: dataPoints,
+                    dataPoints: dataPoints[0],
                     showInLegend: true,
-                    name: 'Señal filtrada',
+                    name: names[0],
                 },
                 {
                     yValueFormatString: "#,###",
                     xValueFormatString: "#(s)",
                     type: "splineArea",
-                    dataPoints: secondDataPoints,
+                    dataPoints: dataPoints[1],
                     showInLegend: true,
-                    name: 'Señal sin filtrar',
+                    name: names[1],
+                },
+                {
+                    yValueFormatString: "#,###",
+                    xValueFormatString: "#(s)",
+                    type: "splineArea",
+                    dataPoints: dataPoints[2],
+                    showInLegend: true,
+                    name: names[2],
+                },
+                {
+                    yValueFormatString: "#,###",
+                    xValueFormatString: "#(s)",
+                    type: "splineArea",
+                    dataPoints: dataPoints[3],
+                    showInLegend: true,
+                    name: names[3],
                 }
             ]
             }
@@ -105,8 +112,7 @@ class ChartComponent extends Component {
                 zoomEnabled: true,
                 backgroundColor: "#FFF",
                 title:{
-                    text: title,
-                    fontSize: 20,
+                    text: title
                 },
                 axisX: {
                     stripLines: stripLines
@@ -130,15 +136,15 @@ class ChartComponent extends Component {
 		);
 	}
 }
-export default ChartComponent;
+export default GroupSignalChartComponent;
 
-ChartComponent.propTypes = {
+GroupSignalChartComponent.propTypes = {
     title: PropTypes.string.isRequired,
-    data: PropTypes.array.isRequired,
+    data: PropTypes.arrayOf(PropTypes.array).isRequired,
+    names: PropTypes.arrayOf(PropTypes.string).isRequired,
     start: PropTypes.number,
-    secondData: PropTypes.array,
 }
 
-ChartComponent.defaultProps = {
+GroupSignalChartComponent.defaultProps = {
     start: 0,
 }

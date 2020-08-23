@@ -142,9 +142,36 @@ class PatientsMainPaneComponent extends Component{
             );
             if(renderedPatients.length > 0){
                 return(
-                    <ul className='suite-ul'>
-                        { renderedPatients }
-                    </ul>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>
+                                    Nombre
+                                </th>
+                                <th>
+                                    Correo electrónico
+                                </th>
+                                <th>
+                                    Género
+                                </th>
+                                <th>
+                                    Edad
+                                </th>
+                                <th>
+                                    Número de teléfono
+                                </th>
+                                <th>
+
+                                </th>
+                                <th>
+
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            { renderedPatients }
+                        </tbody>
+                    </table>
                 );
             }
         }

@@ -31,7 +31,7 @@ export default class GetPatientConnector extends GetPatientConnectorInterface{
           const returnedSuites = [];
           const suites = response.data.suites
           for (let index = 0; index < Object.keys(suites).length; index++){
-            const suiteEntity = new SuiteEntity(suites.data[index].id, suites.data[index].name, suites.data[index].date, suites.data[index].user_id, suites.data[index].username);
+            const suiteEntity = new SuiteEntity(suites[index].id, suites[index].name, suites[index].date, suites[index].user_id, suites[index].username);
             
             returnedSuites.push(suiteEntity);
           }

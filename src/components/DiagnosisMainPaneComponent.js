@@ -143,9 +143,33 @@ class DiagnosisMainPaneComponent extends Component{
             );
             if(renderedDiagnoses.length > 0){
                 return(
-                    <ul className='suite-ul'>
+                    <table>
+                    <thead>
+                        <tr>
+                            <th>
+                                Nombre
+                            </th>
+                            <th>
+                                Prueba
+                            </th>
+                            <th>
+                                Paciente
+                            </th>
+                            <th>
+
+                            </th>
+                            <th>
+
+                            </th>
+                            <th>
+                                
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
                         { renderedDiagnoses }
-                    </ul>
+                    </tbody>
+                </table>
                 );
             }
         }

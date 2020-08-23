@@ -116,9 +116,36 @@ class SuitesMainPaneComponent extends Component{
             );
             if(renderedSuites.length > 0){
                 return(
-                    <ul className='suite-ul'>
+                    <table>
+                    <thead>
+                        <tr>
+                            <th>
+                                Nombre
+                            </th>
+                            <th>
+                                Diagnóstico
+                            </th>
+                            <th>
+                                Paciente
+                            </th>
+                            <th>
+                                Tipo
+                            </th>
+                            <th>
+                                Fecha
+                            </th>
+                            <th>
+                                
+                            </th>
+                            <th>
+                                
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
                         { renderedSuites }
-                    </ul>
+                    </tbody>
+                </table>
                 );
             }else{
                 return(
@@ -142,7 +169,7 @@ class SuitesMainPaneComponent extends Component{
         }
         
         if (loadedSuite && loadedWaves){
-            return <DetailedSuiteComponent suite={loadedSuite} waves={loadedWaves} closeDetailedSuiteCallback={this._closeDetailedSuite} />
+            return <DetailedSuiteComponent suite={loadedSuite} waves={loadedWaves} closeDetailedSuiteCallback={this._closeDetailedSuite} userEntity={userEntity} />
         }
 
         return (

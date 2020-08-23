@@ -287,11 +287,11 @@ li a {
 .main-pane {
   background-color: white;
   border-radius: 5px;
-  margin: 5px 5px 5px 180px;
+  margin: 5px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-height: 98vh;
+  padding: 10px;
 }
 
 .informative-main-pane-header {
@@ -308,6 +308,8 @@ li a {
   text-align: center;
   padding: 15px;
   max-height: inherit;
+  width: 100%;
+  overflow-x: auto;
 }
 
 .overflow-y {
@@ -383,9 +385,140 @@ li a {
 }
 .detailed-suite-close{
   position: absolute;
-  top: 25px;
+  top: 100px;
   right: 15px;
 }
 .wave-sections-container{
   margin-top: 20px;
+}
+
+table {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: start;
+}
+
+th {
+  vertical-align: bottom;
+  border-bottom: 2px solid #545454;
+  color: #333;
+}
+
+tr {
+  height: 50px;
+}
+
+tbody>tr:hover {
+  background-color: lightcyan;
+  cursor: pointer;
+}
+
+.patient-name {
+  width: 20%;
+}
+.patient-mail {
+  width: 20%;
+}
+.patient-gender {
+  width: 15%;
+}
+.patient-age {
+  width: 10%;
+}
+.patient-phone {
+  width: 20%;
+}
+
+.detailed-patient-container {
+  display: flex;
+  width: 100%;
+  padding: 15px;
+  justify-content: center;
+  overflow-x: overlay;
+}
+
+.detailed-diagnosis-container {
+  display: flex;
+  width: 100%;
+  padding: 15px;
+  justify-content: center;
+  overflow-x: overlay;
+}
+
+.detailed-diagnosis-container > * {
+  margin:5px 10%;
+}
+
+.patient-info-container {
+  padding: 0 40px;
+}
+
+.parameter {
+  font-weight: 500;
+  color: #586069;
+}
+
+.input-parameter {
+  margin: 8px 2px;
+  border-radius: 5px;
+}
+
+.diagnosis-description {
+  width: 50%;
+}
+
+.video-diagnosis-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-diagnosis-container {
+  margin: 5px 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.diagnosis-description-textarea {
+  width: 400px;
+}
+
+.send-email-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.checkbox-component {
+  margin: 8px 2px;
+}
+
+.edit-suite-container {
+  display: flex;
+}
+
+.edit-suite-column-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.dual-chart-container {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -moz-flex;
+  display: -webkit-flex;
+  display: flex;
+}
+
+.flex-chart-container {
+  flex: 1;
+  margin: 10px 30px;
+}
+
+.single-muscle-container {
+  display: flex;
+  justify-content: center;
+}
+
+.wave-parameter-container {
+  margin: 10px 15px;
 }

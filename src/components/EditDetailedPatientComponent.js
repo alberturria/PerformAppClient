@@ -48,47 +48,71 @@ class EditDetailedPatientComponent extends Component{
 
     render() {
         const { nameValue, mailValue, ageValue, phoneValue, genderValue } = this.state;
+        const { patientEntity } = this.props;
+
         return (
             <div className="main-pane">
-                <p>
-                    Nombre:
-                </p>
-                <input ref={this.nameRef} defaultValue={nameValue} >
-                </input>
-                <p>
-                    Email:
-                </p>
-                <input ref={this.emailRef} defaultValue={mailValue}>
-                </input>
-                <p>
-                    Edad:
-                </p>
-                <input ref={this.ageRef} defaultValue={ageValue}>
-                </input>
-                <p>
-                    Teléfono:
-                </p>
-                <input ref={this.phoneRef} defaultValue={phoneValue}>
-                </input>
-                <p>
-                    Género:
-                </p>
-                <select ref={this.genderRef} defaultValue={genderValue}>
-                    <option value={1} selected>Hombre</option> 
-                    <option value={2}>Mujer</option>
-                    <option value={3}>Otro</option>
-                </select>
-
-                <input
-                    type="file"
-                    ref={(input) => { this.filesInput = input }}
-                    name="file"
-                    accept="image/png, image/jpeg"
-                    icon='file text outline'
-                    label='Subir imagen del paciente'
-                    placeholder='Subir imagen'
-                    onChange={this.handleChange}
-                />
+                <div className="informative-main-pane-header">
+                    {patientEntity.name}
+                </div>
+                <div className='detailed-patient-container'>
+                <img src={patientEntity.photo} alt="Imagen del usuario" width='250px'/>
+                    <div className='patient-info-container'>
+                        <label className='parameter'>
+                            Nombre:
+                            
+                            <input ref={this.nameRef} defaultValue={nameValue} className='input-parameter' >
+                            </input>
+                        </label>
+                        <br/>
+                        <label className='parameter'>
+                            Email:
+                            
+                            <input ref={this.emailRef} defaultValue={mailValue} className='input-parameter'>
+                            </input>
+                        </label>
+                        <br/>
+                        <label className='parameter'>
+                            Género:
+                            
+                            <select ref={this.genderRef} defaultValue={genderValue}>
+                                <option value={1} selected>Hombre</option> 
+                                <option value={2}>Mujer</option>
+                                <option value={3}>Otro</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div className='patient-info-container'>
+                        <label className='parameter'>
+                            Edad:
+                            <input ref={this.ageRef} defaultValue={ageValue} className='input-parameter'>
+                            </input>
+                        </label>
+                        <br/>
+                        <label className='parameter'>
+                            Teléfono:
+                            <input ref={this.phoneRef} defaultValue={phoneValue} className='input-parameter'>
+                            </input>  
+                        </label>
+                        <br/>
+                        <label className='parameter'>
+                            Imágen del usuario:
+                            <input
+                                type="file"
+                                ref={(input) => { this.filesInput = input }}
+                                name="file"
+                                accept="image/png, image/jpeg"
+                                icon='file text outline'
+                                label='Subir imagen del paciente'
+                                placeholder='Subir imagen'
+                                onChange={this.handleChange}
+                                className='input-parameter'
+                            />
+                        </label>
+                    </div>
+                </div>
+                
+                
 
                 <button
                 className="modal-button"

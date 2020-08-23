@@ -122,9 +122,6 @@ class Menu extends Component {
                 <button className='nav-main-list-button' onClick={this._selectPruebasTab}>Pruebas</button>
               </a>
               <a className='nav-main-list-li' href>
-                <button className='nav-main-list-button' onClick={this._selectDatosTab}>Datos</button>
-              </a>
-              <a className='nav-main-list-li' href>
                 <button className='nav-main-list-button' onClick={this._selectDiagnosticosTab}>Diagnósticos</button>
               </a>
 

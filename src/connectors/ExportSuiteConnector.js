@@ -2,11 +2,12 @@ import axios from 'axios';
 import ExportSuiteConnectorInterface from '../interfaces/connectors/ExportSuiteConnectorInterface';
 
 export default class ExportSuiteConnector extends ExportSuiteConnectorInterface {
-    constructor(userId, suiteId) {
+    constructor(userId, suiteId, selectOptions) {
         super();
 
         this.userId = userId;
         this.suiteId = suiteId;
+        this.selectOptions = selectOptions;
         this.url = `${process.env.REACT_APP_URL}${this.userId}/export-to-pdf/${this.suiteId}`;
     }
 
@@ -15,6 +16,7 @@ export default class ExportSuiteConnector extends ExportSuiteConnectorInterface 
         return axios({
           method: 'post',
           url: this.url,
+          data: this.selectOptions,
           headers: {
               'Content-Type': 'application/json;charset=utf-8',
           },

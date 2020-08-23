@@ -14,16 +14,16 @@ class DetailedDiagnosisComponent extends Component{
     _renderRelatedSuite() {
         const { diagnosisEntity } = this.props;
 
-        if (diagnosisEntity.suiteId) {
+        if (diagnosisEntity.suiteName) {
             return(
                 <p>
-                    Prueba asociada: {diagnosisEntity.suiteId}
+                    <span  className='parameter'>Prueba asociada:</span> {diagnosisEntity.suiteName}
                 </p>
             )
         }
 
         return(
-            <p>
+            <p className='parameter'>
                 Este diagnóstico no tiene ninguna prueba asociada.
             </p>
         )
@@ -41,17 +41,23 @@ class DetailedDiagnosisComponent extends Component{
                 <div className="informative-main-pane-header">
                     {diagnosisEntity.name}
                 </div>
-                <p>
-                    Nombre: {diagnosisEntity.name}
-                </p>
-                <p>
-                    Descripción: {diagnosisEntity.description}
-                </p>
-                <video width="320" height="240" controls>
-                    <source src={diagnosisEntity.video} type="video/mp4" />
-                    Su navegador no soporta la reproducción de video.
-                </video> 
-                {this._renderRelatedSuite}
+                <div className='detailed-diagnosis-container'>
+                    <p>
+                        <span className='parameter'>Nombre:</span> {diagnosisEntity.name}
+                    </p>
+                    <div className='video-diagnosis-container'>
+                    <span className='parameter'>Vídeo asociado: </span>
+                        <video width="320" height="240" controls>
+                            <source src={diagnosisEntity.video} type="video/mp4" />
+                            Su navegador no soporta la reproducción de video.
+                        </video> 
+                    </div>
+                </div>
+                <div className='diagnosis-description'>
+                    <span className='parameter'>Descripción:</span> {diagnosisEntity.description}
+                </div>
+                    {this._renderRelatedSuite}
+
             </div>
         )
     }

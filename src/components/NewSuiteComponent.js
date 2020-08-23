@@ -105,7 +105,7 @@ class NewSuiteComponent extends Component{
             const customFieldEntity = new CustomFieldEntity(null, this.parameterReferences[i].current.value, this.valueReferences[i].current.value, null);
             customFieldsEntities.push(customFieldEntity);
         }
-        const suiteInfo = new SuiteEntity(null, this.nameRef.current.value, startDate, userEntity.userId, userEntity.username, this.patientRef.current.value, this.diagnosisRef.current.value, csv, video, customFieldsEntities);
+        const suiteInfo = new SuiteEntity(null, this.nameRef.current.value, startDate, userEntity.userId, userEntity.username, this.patientRef.current.value, null, this.diagnosisRef.current.value, null, csv, video, customFieldsEntities);
         const newSuiteUseCase = new NewSuiteUseCase(userEntity.userId, suiteInfo);
         newSuiteUseCase.run()
     }
@@ -123,10 +123,16 @@ class NewSuiteComponent extends Component{
         const renderedCustomFields = [];
         for(var i = 0; i < customFields.length; i+=1) {
             renderedCustomFields.push(
-                <React.Fragment>
-                    <input ref={this.getOrCreateParameterRef(i)}></input>
-                    <input ref={this.getOrCreateValueRef(i)}></input>
-                </React.Fragment>
+                <div>
+                    <label className='parameter'>
+                        Campo:
+                        <input ref={this.getOrCreateParameterRef(i)} className='input-parameter'></input>
+                    </label>
+                    <label className='parameter'>
+                        Valor:
+                        <input ref={this.getOrCreateValueRef(i)} className='input-parameter'></input>
+                    </label>
+                </div>
             );
         }
         return(
@@ -147,60 +153,87 @@ class NewSuiteComponent extends Component{
 
         return (
             <div className="main-pane">
-                <p>
-                    Nombre:
-                </p>
-                <input ref={this.nameRef}>
-                </input>
-                <p>
-                    Fecha:
-                </p>
-                <DatePicker
-                    dateFormat="dd/MM/yyyy"
-                    selected={this.state.startDate}
-                    onChange={this.handleDateChange}
-                />
-                <p>
-                Paciente:
-                </p>
-                <select ref={this.patientRef}>
-                    {patientsOptions}
-                </select>
-                <p>
-                Diagnóstico:
-                </p>
-                <select ref={this.diagnosisRef}>
-                    {diagnosesOptions}
-                </select>
+                <div className="informative-main-pane-header">
+                    Crear nueva prueba
+                </div>
 
-                <p>
-                    Datos:
-                </p>
-                <input
-                    type="file"
-                    ref={(input) => { this.filesInput = input }}
-                    name="file"
-                    accept=".csv"
-                    icon='file text outline'
-                    label='Subir datos de la prueba'
-                    placeholder='Subir datos'
-                    onChange={this.handleChange}
-                />
-                <p>
-                    Vídeo:
-                </p>
-                <input
-                    type="file"
-                    ref={(input) => { this.filesInput = input }}
-                    name="file"
-                    accept="video/*"
-                    icon='file text outline'
-                    label='Subir video del diagnóstico'
-                    placeholder='Subir video'
-                    onChange={this.handleVideoChange}
-                />
+                <div className='edit-suite-container'>
+                    <div className='edit-suite-column-container'>
+                    <label className='parameter'>
+                        Nombre:
+                        <input ref={this.nameRef} className='input-parameter'>
+                        </input>
+                    </label>
+                    <label className='parameter'>
+                        Fecha:
+                        <DatePicker
+                            dateFormat="dd/MM/yyyy"
+                            selected={this.state.startDate}
+                            onChange={this.handleDateChange}
+                            className='input-parameter'
+                        />
+                    </label>
+                    <label className='parameter'>
+                    Paciente:
+                        <select ref={this.patientRef} className='input-parameter'>
+                            {patientsOptions}
+                        </select>
+                    </label>
+                    
+                    <label className='parameter'>
+                        Diagnóstico:
+                        <select ref={this.diagnosisRef} className='input-parameter'>
+                            {diagnosesOptions}
+                        </select>
+                    </label>
+                    
 
-                {this._renderCustomFields()}
+                    <label className='parameter'>
+                        Datos:
+                        <input
+                            type="file"
+                            ref={(input) => { this.filesInput = input }}
+                            name="file"
+                            accept=".csv"
+                            icon='file text outline'
+                            label='Subir datos de la prueba'
+                            placeholder='Subir datos'
+                            onChange={this.handleChange}
+                            className='input-parameter'
+                        />
+                    </label>            
+                </div>
+                <div className='video-diagnosis-container'>
+
+                    <label className='parameter'>
+                        Tipo:
+                        <select ref={this.typeRef} className='input-parameter'>
+                            <option value={null}></option> 
+                            <option value={1}>Genérica</option> 
+                            <option value={2}>Padel</option>
+                            <option value={3}>Rehabilitación</option>
+                        </select>
+                    </label>
+
+                    <label className='parameter'>
+                        Vídeo:
+                    </label>
+                    <input
+                        type="file"
+                        ref={(input) => { this.filesInput = input }}
+                        name="file"
+                        accept="video/*"
+                        icon='file text outline'
+                        label='Subir video del diagnóstico'
+                        placeholder='Subir video'
+                        onChange={this.handleVideoChange}
+                        className='input-parameter'
+                    />
+
+                    {this._renderCustomFields()}
+
+                </div>
+            </div>
                 <button
                 className="modal-button"
                 onClick={this.createSuite}>
