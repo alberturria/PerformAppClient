@@ -70,7 +70,8 @@ class ChartComponent extends Component {
                 zoomEnabled: true,
                 backgroundColor: "#FFF",
                 title:{
-                    text: title
+                    text: title,
+                    fontSize: 20,
                 },
                 axisX: {
                     stripLines: stripLines
@@ -104,7 +105,8 @@ class ChartComponent extends Component {
                 zoomEnabled: true,
                 backgroundColor: "#FFF",
                 title:{
-                    text: title
+                    text: title,
+                    fontSize: 20,
                 },
                 axisX: {
                     stripLines: stripLines

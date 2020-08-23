@@ -3,12 +3,15 @@ import Spinner from "react-bootstrap/Spinner";
 import PropTypes from 'prop-types';
 import UserEntity from "../entities/UserEntity";
 import NoSuitesComponent from "./NoSuitesComponent";
-import NewPatientComponent from "./NewPatientComponent";
-import PatientElementListComponent from "./PatientElementListComponent";
-import GetAllPatientsUseCase from "../useCases/GetAllPatientsUseCase.js";
-import GetPatientUseCase from "../useCases/GetPatientUseCase";
 import DetailedPatientComponent from "./DetailedPatientComponent";
 import EditDetailedPatientComponent from "./EditDetailedPatientComponent";
+import GetAllDiagnosesUseCase from "../useCases/GetAllDiagnosesUseCase";
+import NewDiagnosisComponent from "./NewDiagnosisComponent";
+import GetDiagnosisUseCase from "../useCases/GetDiagnosisUseCase";
+import DiagnosisElementListComponent from "./DiagnosisElementListComponent";
+import DetailedDiagnosisComponent from "./DetailedDiagnosisComponent";
+import EditDetailedDiagnosisComponent from "./EditDetailedDiagnosisComponent";
+import CreateSampleDiagnosesUseCase from "../useCases/CreateSampleDiagnosesUseCase";
 
 
 class DiagnosisMainPaneComponent extends Component{
@@ -29,7 +32,9 @@ class DiagnosisMainPaneComponent extends Component{
         this.getOrCreateRef = this.getOrCreateRef.bind(this);
         this.loadAllDiagnoses = this.loadAllDiagnoses.bind(this);
         this._renderNewDiagnosis = this._renderNewDiagnosis.bind(this);
-        this._closeDetailedPatient = this._closeDetailedPatient.bind(this);
+        this._closeDetailedDiagnosis = this._closeDetailedDiagnosis.bind(this);
+        this._renderCreateSampleDiagnoses = this._renderCreateSampleDiagnoses.bind(this);
+        this._createSampleDiagnoses = this._createSampleDiagnoses.bind(this);
     }
 
     componentDidMount() {
@@ -37,16 +42,16 @@ class DiagnosisMainPaneComponent extends Component{
     }
 
     _renderNewDiagnosis() {
-        this.setState({newPatient: true});
+        this.setState({newDiagnosis: true});
     }
 
     loadAllDiagnoses() {
         const { userEntity } = this.props;
         this.setState({ loading: true });
-        const getAllPatientsUseCase = new GetAllPatientsUseCase(userEntity.userId);
-        getAllPatientsUseCase.run()
+        const getAllDiagnosesUseCase = new GetAllDiagnosesUseCase(userEntity.userId);
+        getAllDiagnosesUseCase.run()
         .then(() => {
-            const diagnoses = getAllPatientsUseCase.getResult();
+            const diagnoses = getAllDiagnosesUseCase.getResult();
             this.setState({ diagnoses: diagnoses, loading:false });
         });
     }
@@ -58,34 +63,54 @@ class DiagnosisMainPaneComponent extends Component{
         return this.references[id];
     }
 
-    loadDiagnosis(patientId) {
+    loadDiagnosis(diagnosisId) {
         const { userEntity } = this.props;
-        const getPatientUseCase = new GetPatientUseCase(userEntity.userId, patientId); 
-        getPatientUseCase.run()
+        const getDiagnosisUseCase = new GetDiagnosisUseCase(userEntity.userId, diagnosisId); 
+        getDiagnosisUseCase.run()
         .then(() => {
-            const patient = getPatientUseCase.getPatientEntity();
-            const relatedSuites = getPatientUseCase.getRelatedSuitesEntities();
-            this.references[patientId].current.setState({loading: false});
+            const diagnosis = getDiagnosisUseCase.getDiagnosisEntity();
+            this.references[diagnosisId].current.setState({loading: false});
 
-            this.setState({loadedPatient: patient, loadedRelatedSuites: relatedSuites});
+            this.setState({loadedDiagnosis: diagnosis});
         });
     }
 
-    showEditDiagnosis(patientId) {
+    showEditDiagnosis(diagnosisId) {
         const { userEntity } = this.props;
-        const getPatientUseCase = new GetPatientUseCase(userEntity.userId, patientId); 
-        getPatientUseCase.run()
+        const getDiagnosisUseCase = new GetDiagnosisUseCase(userEntity.userId, diagnosisId); 
+        getDiagnosisUseCase.run()
         .then(() => {
-            const patient = getPatientUseCase.getPatientEntity();
-            this.references[patientId].current.setState({loading: false});
+            const diagnosis = getDiagnosisUseCase.getDiagnosisEntity();
+            this.references[diagnosisId].current.setState({loading: false});
 
-            this.setState({loadedPatient: patient, editing: true});
+            this.setState({loadedDiagnosis: diagnosis, editing: true});
         });
 
     }
 
-    _closeDetailedPatient() {
-        this.setState({loadedPatient: null, loadedWaves: null});
+    _closeDetailedDiagnosis() {
+        this.setState({loadedDiagnosis: null, loadedWaves: null});
+    }
+
+    _createSampleDiagnoses() {
+        const { userEntity } = this.props;
+        this.setState({ loading: true });
+        const createSampleDiagnosesUseCase = new CreateSampleDiagnosesUseCase(userEntity.userId);
+        createSampleDiagnosesUseCase.run()
+        .then(() => {
+            const diagnoses = createSampleDiagnosesUseCase.getDiagnoses();
+            this.setState({ diagnoses: diagnoses, loading:false });
+        });
+    }
+
+    _renderCreateSampleDiagnoses() {
+        const { diagnoses, loading } = this.state;
+        if ((!diagnoses || diagnoses.length === 0) && !loading) {
+            return (<button className="modal-button" onClick={this._createSampleDiagnoses}>
+                    Usar datos de prueba
+            </button>
+            );
+        }
     }
 
 
@@ -106,25 +131,45 @@ class DiagnosisMainPaneComponent extends Component{
         }
         if (diagnoses !== null && loading === false)
         {
-            const renderedDiagnoses = diagnoses.map((patient, key) =>
-                <PatientElementListComponent
+            const renderedDiagnoses = diagnoses.map((diagnosis, key) =>
+                <DiagnosisElementListComponent
                 loadDiagnosisCallback={this.loadDiagnosis}
-                editPatientCallback={this.showEditDiagnosis}
-                key={key} patientEntity={patient}
-                ref={this.getOrCreateRef(patient.id)}
-                reloadPatientsCallback={this.loadAllDiagnoses}
+                editDiagnosisCallback={this.showEditDiagnosis}
+                key={key} diagnosisEntity={diagnosis}
+                ref={this.getOrCreateRef(diagnosis.id)}
+                reloadDiagnosesCallback={this.loadAllDiagnoses}
                 userEntity={userEntity}
                 />
             );
             if(renderedDiagnoses.length > 0){
                 return(
-                    <ul className='suite-ul'>
+                    <table>
+                    <thead>
+                        <tr>
+                            <th>
+                                Nombre
+                            </th>
+                            <th>
+                                Prueba
+                            </th>
+                            <th>
+                                Paciente
+                            </th>
+                            <th>
+
+                            </th>
+                            <th>
+
+                            </th>
+                            <th>
+                                
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
                         { renderedDiagnoses }
-                    </ul>
-                );
-            }else{
-                return(
-                    <NoSuitesComponent userEntity={userEntity} reloadSuitesCallback={this.loadAllDiagnoses}/>
+                    </tbody>
+                </table>
                 );
             }
         }
@@ -133,18 +178,18 @@ class DiagnosisMainPaneComponent extends Component{
 
     render() {
         const { userEntity } = this.props;
-        const { newPatient, loadedPatient, loadedRelatedSuites, editing } = this.state;
+        const { newDiagnosis, loadedDiagnosis, editing } = this.state;
         
-        if (newPatient){
-            return <NewPatientComponent userEntity={userEntity} />
+        if (newDiagnosis){
+            return <NewDiagnosisComponent userEntity={userEntity} />
         }
 
-        if(loadedPatient && editing) {
-            return <EditDetailedPatientComponent userEntity={userEntity} patientEntity={loadedPatient} closeDetailedPatientCallback={this._closeDetailedPatient} />
+        if(loadedDiagnosis && editing) {
+            return <EditDetailedDiagnosisComponent userEntity={userEntity} diagnosisEntity={loadedDiagnosis} closeDetailedDiagnosisCallback={this._closeDetailedDiagnosis} />
         }
 
-        if(loadedPatient && loadedRelatedSuites) {
-            return <DetailedPatientComponent userEntity={userEntity} patientEntity={loadedPatient} relatedSuites={loadedRelatedSuites} closeDetailedPatientCallback={this._closeDetailedPatient} />
+        if(loadedDiagnosis) {
+            return <DetailedDiagnosisComponent userEntity={userEntity} diagnosisEntity={loadedDiagnosis} closeDetailedDiagnosisCallback={this._closeDetailedDiagnosis} />
         }
 
         return (
@@ -155,6 +200,7 @@ class DiagnosisMainPaneComponent extends Component{
                 <button className="modal-button" onClick={this._renderNewDiagnosis}>
                     Crear diagnóstico
                 </button>
+                {this._renderCreateSampleDiagnoses()}
                 <div className='informative-main-pane-message'>
                     {this._renderDiagnoses()}
                 </div>

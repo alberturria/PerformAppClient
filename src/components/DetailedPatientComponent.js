@@ -13,9 +13,19 @@ import GetAllSuitesUseCase from "../useCases/GetAllSuitesUseCase";
 class DetailedPatientComponent extends Component{
     constructor(props){
         super(props);
+        this.references = {};
         this._renderRelatedSuites = this._renderRelatedSuites.bind(this);
+        this.getOrCreateRef = this.getOrCreateRef.bind(this);
         this.loadSuite = this.loadSuite.bind(this);
         this.loadAllSuites = this.loadAllSuites.bind(this);
+        this._renderGender = this._renderGender.bind(this);
+    }
+
+    getOrCreateRef(id) {
+        if (!this.references.hasOwnProperty(id)) {
+            this.references[id] = React.createRef();
+        }
+        return this.references[id];
     }
 
     loadAllSuites() {
@@ -43,6 +53,19 @@ class DetailedPatientComponent extends Component{
 
     }
 
+    _renderGender() {
+        const {patientEntity} = this.props;
+        if(patientEntity.gender === 1){
+            return 'Hombre';
+        }
+        else if(patientEntity.gender === 2){
+            return 'Mujer';
+        }
+        else{
+            return 'Otro';
+        }
+    }
+
     _renderRelatedSuites() {
         const { relatedSuites } = this.props
 
@@ -62,7 +85,7 @@ class DetailedPatientComponent extends Component{
             );
         }else{
             return(
-                <p>
+                <p className='parameter'>
                     Este paciente aún no tiene pruebas.
                 </p>
             );
@@ -81,22 +104,30 @@ class DetailedPatientComponent extends Component{
                 <div className="informative-main-pane-header">
                     {patientEntity.name}
                 </div>
-                <p>
-                    Nombre: {patientEntity.name}
-                </p>
-                <p>
-                    Email: {patientEntity.mail}
-                </p>
-                <p>
-                    Edad: {patientEntity.age}
-                </p>
-                <p>
-                    Teléfono: {patientEntity.phoneNumber}
-                </p>
-                <p>
-                    Género: {patientEntity.gender}
-                </p>
-                <img src={patientEntity.photo} alt="Imagen del usuario"/>
+                <div className='detailed-patient-container'>
+                    <img src={patientEntity.photo} alt="Imagen del usuario" width='250px'/>
+                    <div className='patient-info-container'>
+                        <p>
+                            <span className='parameter'>Nombre:</span> {patientEntity.name}
+                        </p>
+                        <p>
+                            <span className='parameter'>Email:</span> {patientEntity.mail}
+                        </p>
+                        <p>
+                            <span className='parameter'>Género:</span> {this._renderGender()}
+                        </p>
+                    </div>
+                    <div className='patient-info-container'>
+                        <p>
+                            <span className='parameter'>Edad:</span> {patientEntity.age}
+                        </p>
+                        <p>
+                            <span className='parameter'>Teléfono:</span> {patientEntity.phoneNumber}
+                        </p>
+                    </div>
+                    
+                    
+                </div>
                 {this._renderRelatedSuites()}  
             </div>
         )

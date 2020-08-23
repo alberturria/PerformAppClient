@@ -3,6 +3,7 @@ import Spinner from "react-bootstrap/Spinner";
 import PropTypes from 'prop-types';
 import ChartComponent from "./ChartComponent";
 import GetRmsSectionsUseCase from "../useCases/GetRmsSectionsUseCase";
+import WaveStatisticsEntity from "../entities/WaveStatisticsEntity";
 
 
 class SavedWaveComponent extends Component{
@@ -20,6 +21,7 @@ class SavedWaveComponent extends Component{
 
         this._parseMuscleName = this._parseMuscleName.bind(this);
         this._getRmsSections = this._getRmsSections.bind(this);
+        this._renderStatistics = this._renderStatistics.bind(this);
     }
 
     componentDidMount() {
@@ -44,6 +46,60 @@ class SavedWaveComponent extends Component{
                 this.setState({ rmsSections: rmsSections, loading: false });
                 this.rmsChartRef.current.hoverSections(rmsSections);
             });
+    }
+
+    _renderStatistics() {
+        const { statisticsEntity } = this.props;
+        if (statisticsEntity){
+            return(
+                <div className="single-muscle-container">
+                    <div className='wave-parameter-container'>
+                        <p>
+                            <span className='parameter'>Kurtosis:</span> {statisticsEntity.kurtosis.toFixed(3)}
+                        </p>
+                        <p>
+                            <span className='parameter'>Entropía:</span> {statisticsEntity.entropy.toFixed(3)}
+                        </p>
+                        <p>
+                            <span className='parameter'>Valor máximo:</span> {statisticsEntity.maximum.toFixed(3)}
+                        </p>
+                        <p>
+                            <span className='parameter'>Valor mínimo:</span> {statisticsEntity.minimum.toFixed(3)}
+                        </p>
+                    </div>
+                    <div className='wave-parameter-container'>
+                        <p>
+                            <span className='parameter'>Cruces por cero:</span> {statisticsEntity.zeroCrossingCounts}
+                        </p>
+                        <p>
+                            <span className='parameter'>Media aritmética:</span> {statisticsEntity.arithmeticMean.toFixed(3)}
+                        </p>
+                        <p>
+                            <span className='parameter'>Media armónica: </span>{statisticsEntity.harmonicMean.toFixed(3)}
+                        </p>
+                        <p>
+                           <span className='parameter'>Media geométrica:</span> {statisticsEntity.geometricMean.toFixed(3)}
+                        </p>
+                    </div>
+                    <div className='wave-parameter-container'>
+                        <p>
+                            <span className='parameter'>Media recortada:</span> {statisticsEntity.trimmedMean.toFixed(3)}
+                        </p>
+                        <p>
+                           <span className='parameter'> Mediana:</span> {statisticsEntity.median.toFixed(3)}
+                        </p>
+                        <p>
+                            <span className='parameter'>Moda:</span> {statisticsEntity.mode.toFixed(3)}
+                        </p>
+                        <p>
+                            <span className='parameter'>Varianza:</span> {statisticsEntity.variance.toFixed(3)}
+                        </p>
+                    </div>
+                </div>
+                )
+        }else{
+            return null;
+        }
     }
 
     _renderSpinner() {
@@ -80,25 +136,29 @@ class SavedWaveComponent extends Component{
         const { parsedMuscle } = this.state;
 
         return (
-            <div className="wave-card">
+            <div className='flex-chart-container'>
                 <div className="wave-title bubble">
-                    <p className="wave-info-title">PACIENTE {id}</p>
+                    <p className="wave-info-title">{parsedMuscle}</p>
                 </div>
-                <div className="wave-info bubble">
-                    <ul>
-                        <li className="li-wave-card-details"><p className='wave-field'>Nombre del músculo: </p>{parsedMuscle}</li>
-                        <li className="li-wave-card-details"><p className='wave-field'>RMS medio: </p>{avgRms} </li>
-                        <li className="li-wave-card-details"><p className='wave-field'>Máxima contracción voluntaria: </p>{mvc} </li>
-                        <li className="li-wave-card-details"><p className='wave-field'>Máxima contracción voluntaria histórica: </p>{historicMvc} </li>
-                    </ul>
+                <div className="single-muscle-container">
+                    <div>
+                        <p> <span className='wave-field'>Nombre del músculo:</span> {parsedMuscle}</p>
+                        <p> <span className='wave-field'>RMS medio:</span> {avgRms} </p> 
+                    </div>
+                    <div>
+                        <p> <span className='wave-field'>Máxima contracción voluntaria:</span> {mvc} </p> 
+                        <p> <span className='wave-field'>Máxima contracción voluntaria histórica: </span>{historicMvc} </p>
+                    </div>
                 </div>
-                <ChartComponent ref={this.rmsChartRef} title="RMS" data={rms} secondData={raw}/>
+                <ChartComponent ref={this.rmsChartRef} title="RMS" data={rms} />
                 <button
+                    className='modal-button'
                     onClick={this._getRmsSections}>
                     Ver contracciones
                 </button>
                 {this._renderSpinner()}
                 {this._renderSections()}
+                {this._renderStatistics()}
             </div>
         )
     }
@@ -113,4 +173,5 @@ SavedWaveComponent.propTypes = {
     avgRms: PropTypes.number.isRequired,
     mvc: PropTypes.number.isRequired,
     historicMvc: PropTypes.number.isRequired,
+    statisticsEntity: PropTypes.instanceOf(WaveStatisticsEntity).isRequired,
 }

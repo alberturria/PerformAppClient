@@ -3,11 +3,12 @@ import ExportSuiteUseCaseInterface from '../interfaces/useCases/ExportSuiteUseCa
 
 export default class ExportSuiteUseCase extends ExportSuiteUseCaseInterface {
 
-    constructor(userId, suiteId) {
+    constructor(userId, suiteId, selectOptions) {
         super();
         this.userId = userId;
         this.suiteId = suiteId;
-        this.exportSuiteConnector = new ExportSuiteConnector(this.userId, this.suiteId);
+        this.selectOptions = selectOptions;
+        this.exportSuiteConnector = new ExportSuiteConnector(this.userId, this.suiteId, this.selectOptions);
     }
 
     run() {
