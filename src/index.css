@@ -522,3 +522,8 @@ tbody>tr:hover {
 .wave-parameter-container {
   margin: 10px 15px;
 }
+
+.fatigue-container {
+  text-align: center;
+  margin: 10px 0;
+}

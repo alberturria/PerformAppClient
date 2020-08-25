@@ -3,6 +3,13 @@ import PropTypes from 'prop-types';
 import UserEntity from "../entities/UserEntity";
 import PatientEntity from "../entities/PatientEntity";
 import EditPatientUseCase from "../useCases/EditPatientUseCase";
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+
+
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 
 
@@ -16,6 +23,8 @@ class EditDetailedPatientComponent extends Component{
             ageValue: props.patientEntity.age,
             phoneValue:  props.patientEntity.phoneNumber,
             genderValue: props.patientEntity.gender,
+            success: false,
+            error: false
         }
 
 
@@ -25,6 +34,7 @@ class EditDetailedPatientComponent extends Component{
         this.phoneRef = React.createRef();
         this.genderRef = React.createRef();
         this.handleChange = this.handleChange.bind(this);
+        this.handleClose = this.handleClose.bind(this);
         this.editPatient = this.editPatient.bind(this);
     }
 
@@ -41,13 +51,21 @@ class EditDetailedPatientComponent extends Component{
             this.ageRef.current.value, this.phoneRef.current.value, image , userEntity.userId)
         const editPatientUseCase = new EditPatientUseCase(userEntity.userId, patientInfo);
         editPatientUseCase.run()
+        .then(() => {
+            this.setState({success: true})
+        })
+        .catch(() => {
+            this.setState({error: true});
+        });
     }
 
-
+    handleClose () {
+        this.setState({success: false, error:false});
+     };
 
 
     render() {
-        const { nameValue, mailValue, ageValue, phoneValue, genderValue } = this.state;
+        const { nameValue, mailValue, ageValue, phoneValue, genderValue, success, error } = this.state;
         const { patientEntity } = this.props;
 
         return (
@@ -111,14 +129,22 @@ class EditDetailedPatientComponent extends Component{
                         </label>
                     </div>
                 </div>
-                
-                
-
+        
                 <button
                 className="modal-button"
                 onClick={this.editPatient}>
                     Editar paciente
                 </button>
+                <Snackbar open={success} autoHideDuration={4000} onClose={this.handleClose}>
+                    <Alert  severity="success">
+                    El paciente ha sido editado correctamente
+                    </Alert>
+                </Snackbar>
+                <Snackbar open={error} autoHideDuration={4000} onClose={this.handleClose}>
+                    <Alert  severity="error">
+                    El paciente no ha podido ser editado
+                    </Alert>
+                </Snackbar>
             </div>
         )
     }

@@ -4,8 +4,13 @@ import UserEntity from "../entities/UserEntity";
 import DiagnosisEntity from "../entities/DiagnosisEntity";
 import NewDiagnosisUseCase from "../useCases/NewDiagnosisUseCase";
 import GetAllSuitesUseCase from "../useCases/GetAllSuitesUseCase";
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
 
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 class NewDiagnosisComponent extends Component{
     constructor(props){
@@ -18,6 +23,7 @@ class NewDiagnosisComponent extends Component{
         this.descriptionRef = React.createRef();
         this.suiteRef = React.createRef();
         this.handleChange = this.handleChange.bind(this);
+        this.handleClose = this.handleClose.bind(this);
         this.createDiagnosis = this.createDiagnosis.bind(this);
     }
 
@@ -42,6 +48,10 @@ class NewDiagnosisComponent extends Component{
         });        
     }
 
+    handleClose () {
+       this.setState({success: false, error:false});
+    };
+
     createDiagnosis() {
         const {userEntity} = this.props;
         const { video } = this.state;
@@ -52,13 +62,16 @@ class NewDiagnosisComponent extends Component{
         const diagnosisInfo = new DiagnosisEntity(null, this.nameRef.current.value, this.descriptionRef.current.value, video , userEntity.userId, suiteId)
         const newDiagnosisUseCase = new NewDiagnosisUseCase(userEntity.userId, diagnosisInfo);
         newDiagnosisUseCase.run()
+        .then(() => {
+            this.setState({success: true})
+        })
+        .catch(() => {
+            this.setState({error: true});
+        });
     }
 
-
-
-
     render() {
-        const { suitesOptions } = this.state;
+        const { suitesOptions, success, error } = this.state;
 
         return (
             <div className="main-pane">
@@ -107,6 +120,16 @@ class NewDiagnosisComponent extends Component{
                 onClick={this.createDiagnosis}>
                     Crear diagnóstico
                 </button>
+                <Snackbar open={success===true} autoHideDuration={6000} onClose={this.handleClose}>
+                    <Alert  severity="success">
+                    El diagnóstico ha sido creado
+                    </Alert>
+                </Snackbar>
+                <Snackbar open={error===true} autoHideDuration={6000} onClose={this.handleClose}>
+                    <Alert  severity="error">
+                    El diagnóstico no ha podido ser creado
+                    </Alert>
+                </Snackbar>
             </div>
         )
     }

@@ -10,7 +10,13 @@ import GetAllPatientsUseCase from "../useCases/GetAllPatientsUseCase";
 import SuiteEntity from "../entities/SuiteEntity";
 import NewSuiteUseCase from "../useCases/NewSuiteUseCase";
 import CustomFieldEntity from "../entities/CustomFieldEntity";
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
+
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 
 class NewSuiteComponent extends Component{
@@ -19,7 +25,9 @@ class NewSuiteComponent extends Component{
 
         this.state = {
             startDate: new Date(),
-            customFields: []
+            customFields: [],
+            success: false,
+            error: false
           }; 
         this.parameterReferences = {};
         this.valueReferences = {};
@@ -28,6 +36,7 @@ class NewSuiteComponent extends Component{
         this.diagnosisRef = React.createRef();
         this.dataRef = React.createRef();
         this.handleChange = this.handleChange.bind(this);
+        this.handleClose = this.handleClose.bind(this);
         this.handleDateChange = this.handleDateChange.bind(this);
         this.handleVideoChange = this.handleVideoChange.bind(this);
         this.getOrCreateValueRef = this.getOrCreateValueRef.bind(this);
@@ -108,7 +117,17 @@ class NewSuiteComponent extends Component{
         const suiteInfo = new SuiteEntity(null, this.nameRef.current.value, startDate, userEntity.userId, userEntity.username, this.patientRef.current.value, null, this.diagnosisRef.current.value, null, csv, video, customFieldsEntities);
         const newSuiteUseCase = new NewSuiteUseCase(userEntity.userId, suiteInfo);
         newSuiteUseCase.run()
+        .then(() => {
+            this.setState({success: true})
+        })
+        .catch(() => {
+            this.setState({error: true});
+        });
     }
+
+    handleClose () {
+        this.setState({success: false, error:false});
+     };
 
     addCustomField() {
         const { customFields } = this.state;
@@ -149,7 +168,7 @@ class NewSuiteComponent extends Component{
     }
 
     render() {
-        const {patientsOptions, diagnosesOptions} = this.state;
+        const {patientsOptions, diagnosesOptions, success, error} = this.state;
 
         return (
             <div className="main-pane">
@@ -239,6 +258,16 @@ class NewSuiteComponent extends Component{
                 onClick={this.createSuite}>
                     Crear prueba
                 </button>
+                <Snackbar open={success} autoHideDuration={4000} onClose={this.handleClose}>
+                    <Alert  severity="success">
+                    La prueba ha sido creada
+                    </Alert>
+                </Snackbar>
+                <Snackbar open={error} autoHideDuration={4000} onClose={this.handleClose}>
+                    <Alert  severity="error">
+                    La prueba no ha podido ser creada
+                    </Alert>
+                </Snackbar>
             </div>
         )
     }

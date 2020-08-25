@@ -8,6 +8,13 @@ import GetAllPatientsUseCase from "../useCases/GetAllPatientsUseCase";
 import SuiteEntity from "../entities/SuiteEntity";
 import CustomFieldEntity from "../entities/CustomFieldEntity";
 import EditSuiteUseCase from "../useCases/EditSuiteUseCase";
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+
+
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 
 
@@ -17,7 +24,9 @@ class EditDetailedSuiteComponent extends Component{
 
         this.state = {
             startDate: new Date(props.suiteEntity.date),
-            customFields: []
+            customFields: [],
+            success: false,
+            error: false,
           }; 
         this.parameterReferences = {};
         this.valueReferences = {};
@@ -32,6 +41,7 @@ class EditDetailedSuiteComponent extends Component{
         this.getOrCreateValueRef = this.getOrCreateValueRef.bind(this);
         this.getOrCreateParameterRef = this.getOrCreateParameterRef.bind(this);
         this.editSuite = this.editSuite.bind(this);
+        this.handleClose = this.handleClose.bind(this);
         this.addCustomField = this.addCustomField.bind(this);
     }
 
@@ -99,6 +109,10 @@ class EditDetailedSuiteComponent extends Component{
         return this.valueReferences[id];
     }
 
+    handleClose () {
+        this.setState({success: false, error:false});
+     };
+
     editSuite() {
         const {userEntity, suiteEntity} = this.props;
         const { video, csv, startDate, customFields } = this.state;
@@ -110,6 +124,12 @@ class EditDetailedSuiteComponent extends Component{
         const suiteInfo = new SuiteEntity(suiteEntity.id, this.nameRef.current.value, startDate, userEntity.userId, userEntity.username, this.patientRef.current.value, null, this.diagnosisRef.current.value, null, csv, video, customFieldsEntities, this.typeRef.current.value);
         const editSuiteUseCase = new EditSuiteUseCase(userEntity.userId, suiteInfo);
         editSuiteUseCase.run()
+        .then(() => {
+            this.setState({success: true})
+        })
+        .catch(() => {
+            this.setState({error: true});
+        });
     }
 
     addCustomField() {
@@ -151,7 +171,7 @@ class EditDetailedSuiteComponent extends Component{
     }
 
     render() {
-        const {patientsOptions, diagnosesOptions} = this.state;
+        const {patientsOptions, diagnosesOptions, success, error} = this.state;
         const { suiteEntity } = this.props;
 
         return (
@@ -242,6 +262,16 @@ class EditDetailedSuiteComponent extends Component{
                 onClick={this.editSuite}>
                     Editar prueba
                 </button>
+                <Snackbar open={success} autoHideDuration={4000} onClose={this.handleClose}>
+                    <Alert  severity="success">
+                    La prueba ha sido editada correctamente
+                    </Alert>
+                </Snackbar>
+                <Snackbar open={error} autoHideDuration={4000} onClose={this.handleClose}>
+                    <Alert  severity="error">
+                    La prueba no ha podido ser editada
+                    </Alert>
+                </Snackbar>
             </div>
         )
     }

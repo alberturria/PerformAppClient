@@ -10,6 +10,7 @@ import GroupSignalChartComponent from "./GroupSignalChartComponent";
 import ColumnComponent from "./ColumnComponent";
 import PieComponent from "./PieComponent";
 import GetWaveStatisticsUseCase from "../useCases/GetWaveStatisticsUseCase";
+import GetFatigueAnalysisUseCase from "../useCases/GetFatigueAnalysisUseCase";
 
 
 
@@ -17,7 +18,7 @@ class DetailedSuiteComponent extends Component{
     constructor(props){
         super(props);
 
-        this.state = { diagnosis: null, patient: null, activationData: null, simmetryData: null, statistics: null };
+        this.state = { diagnosis: null, patient: null, activationData: null, simmetryData: null, statistics: null, fatigueEntities: null };
         this._renderDetailedWaves = this._renderDetailedWaves.bind(this);
         this._renderDiagnosis = this._renderDiagnosis.bind(this);
         this._renderPatient = this._renderPatient.bind(this);
@@ -25,6 +26,8 @@ class DetailedSuiteComponent extends Component{
         this._calculateActivation = this._calculateActivation.bind(this);
         this._calculateSymmetry = this._calculateSymmetry.bind(this);
         this._renderGender = this._renderGender.bind(this);
+        this._renderCustomFields = this._renderCustomFields.bind(this);
+        this._renderFatigueAnalysis = this._renderFatigueAnalysis.bind(this);
     }
 
     componentDidMount() {
@@ -48,6 +51,13 @@ class DetailedSuiteComponent extends Component{
         .then(() => {
             const statistics = getWaveStatisticsUseCase.getStatisticsEntities();
             this.setState({ statistics: statistics, loading:false });
+        });
+
+        const getFatigueAnalysisUseCase = new GetFatigueAnalysisUseCase(userEntity.userId, suite.id);
+        getFatigueAnalysisUseCase.run()
+        .then(() => {
+            const fatigueEntities = getFatigueAnalysisUseCase.getFatigueEntities();
+            this.setState({ fatigueEntities: fatigueEntities, loading:false });
         });
 
         this._calculateActivation();
@@ -216,6 +226,61 @@ class DetailedSuiteComponent extends Component{
         }
     }
 
+    _renderCustomFields() {
+        const { suite } = this.props;
+        const customFields = suite.customFields;
+        const renderedCustomFields = [];
+        for(var i = 0; i < customFields.length; i+=1) {
+            renderedCustomFields.push(
+                <div>
+                    <p>
+                        <span className='parameter'>{customFields[i].parameter}:</span> {customFields[i].value}
+                    </p>
+                </div>
+            );
+        }
+        return(
+            <React.Fragment>
+                {renderedCustomFields}
+            </React.Fragment>
+        )
+    }
+
+    _renderFatigueAnalysis() {
+        const { fatigueEntities } = this.state;
+        const renderedFatigueEntities = [];
+        if(fatigueEntities) {
+            for(var i = 0; i < fatigueEntities.length; i+=1) {
+                const musclesNames = `${fatigueEntities[i].muscle1Name.split('_')[1]} - ${fatigueEntities[i].muscle2Name.split('_')[1]}`;
+                const value = (fatigueEntities[i].muscle2Power * 100) / fatigueEntities[i].muscle1Power;
+                if (value > 100 ) {
+                    const renderedValue = ((fatigueEntities[i].muscle2Power * 100) / fatigueEntities[i].muscle1Power) - 100;
+                    renderedFatigueEntities.push(
+                            <p>
+                                La pareja de músculos {musclesNames} han sufrido un aumento de la fatiga un {renderedValue.toFixed(2)}%
+                            </p>
+                    );
+
+                } else {
+                    const renderedValue = 100 - ((fatigueEntities[i].muscle2Power * 100) / fatigueEntities[i].muscle1Power);
+                    renderedFatigueEntities.push(
+                            <p>
+                                La pareja de músculos {musclesNames} han sufrido un decremento de la fatiga un {renderedValue.toFixed(2)}%
+                            </p>
+                    );
+                }
+            }
+            return(
+                <div className='fatigue-container'>
+                    <p className='parameter'>Análisis de fatiga</p>
+                    {renderedFatigueEntities}
+                </div>
+            )
+        } else {
+            return null;
+        }
+    }   
+
     render() {
         const {suite, waves, closeDetailedSuiteCallback} = this.props;
         const {activationData, simmetryData} = this.state;
@@ -238,6 +303,7 @@ class DetailedSuiteComponent extends Component{
                 <div className="informative-main-pane-header">
                     {suite.name}
                 </div>
+                {this._renderCustomFields()}
                 {this._renderSuiteVideo()}
                 {this._renderDiagnosis()}
                 {this._renderPatient()}
@@ -250,6 +316,7 @@ class DetailedSuiteComponent extends Component{
                             <GroupSignalChartComponent title='Señales filtradas' data={filteredData} names={filteredNames}/>
                         </div>
                     </div>
+                    {this._renderFatigueAnalysis()}
                     <div className='dual-chart-container'>
                         <div className='flex-chart-container'>
                             <PieComponent title='Activación Muscular' data={activationData} yAxisTitle='Porcentaje de activación (%)'/>

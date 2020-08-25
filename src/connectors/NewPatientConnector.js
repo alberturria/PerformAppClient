@@ -24,13 +24,6 @@ export default class NewPatientConnector extends NewPatientConnectorInterface {
           },
           withCredentials: false,
       })
-        .then((response) => 
-        {
-          return response.status;
-        })
-        .catch((error) => { 
-          return error;
-        })
       }
 
       _includePatientEntityToFormData(){

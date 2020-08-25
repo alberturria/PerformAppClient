@@ -25,13 +25,6 @@ export default class NewSuiteConnector extends NewSuiteConnectorInterface {
           },
           withCredentials: false,
       })
-        .then((response) => 
-        {
-          return response.status;
-        })
-        .catch((error) => { 
-          return error;
-        })
       }
 
       _includeSuiteEntityToFormData(){

@@ -24,13 +24,6 @@ export default class NewDiagnosisConnector extends NewDiagnosisConnectorInterfac
           },
           withCredentials: false,
       })
-        .then((response) => 
-        {
-          return response.status;
-        })
-        .catch((error) => { 
-          return error;
-        })
       }
 
       _includeDiagnosisEntityToFormData(){

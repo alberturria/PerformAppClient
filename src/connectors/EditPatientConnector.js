@@ -42,7 +42,7 @@ export default class EditPatientConnector extends EditPatientConnectorInterface 
           this.suitesEntities = returnedSuites;
         })
         .catch((error) => { 
-          return error;
+          return Promise.reject(error);
         })
       }
 

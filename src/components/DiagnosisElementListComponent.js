@@ -72,7 +72,7 @@ class DiagnosisElementListComponent extends Component{
 
     _renderNotifyIfPossible(){
         const { diagnosisEntity } = this.props;
-        if (diagnosisEntity.suiteId){
+        if (diagnosisEntity.suiteId && diagnosisEntity.patientName){
             return(
                 <Popup className="own-popup"
                 trigger={

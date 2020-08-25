@@ -19,6 +19,7 @@ class DetailedPatientComponent extends Component{
         this.loadSuite = this.loadSuite.bind(this);
         this.loadAllSuites = this.loadAllSuites.bind(this);
         this._renderGender = this._renderGender.bind(this);
+        this._renderType = this._renderType.bind(this);
     }
 
     getOrCreateRef(id) {
@@ -66,22 +67,68 @@ class DetailedPatientComponent extends Component{
         }
     }
 
+    _renderType(type){
+        if (type === 1){
+            return 'Genérica';
+        } else if (type === 2) {
+            return 'Pádel';
+        } else {
+            return 'Rehabilitación';
+        }
+    }
+
+
     _renderRelatedSuites() {
         const { relatedSuites } = this.props
 
         const renderedSuites = relatedSuites.map((suite, key) =>
-            <SuiteElementListComponent
-            key={key} suiteEntity={suite}
-            loadSuiteCallback={this.loadSuite}
-            ref={this.getOrCreateRef(suite.id)}
-            reloadSuitesCallback={this.loadAllSuites}
-            />
+            <tr>
+            <td className="suite-name">
+                {suite.name}
+            </td>
+            <td className="suite-name">
+                {suite.diagnosisName}
+            </td>
+            <td className="suite-name">
+                {suite.patientName}
+            </td>
+            <td className="suite-name">
+                {this._renderType(suite.type)}
+            </td>
+            <td className="suite-date">
+                {suite.date}
+            </td>
+            </tr>
         );
         if(renderedSuites.length > 0){
             return(
-                <ul className='suite-ul'>
-                    { renderedSuites }
-                </ul>
+                <React.Fragment>
+                    <p className='parameter'>Pruebas relacionadas</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>
+                                    Nombre
+                                </th>
+                                <th>
+                                    Diagnóstico
+                                </th>
+                                <th>
+                                    Paciente
+                                </th>
+                                <th>
+                                    Tipo
+                                </th>
+                                <th>
+                                    Fecha
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            { renderedSuites }
+                        </tbody>
+                    </table>
+                </React.Fragment>
             );
         }else{
             return(

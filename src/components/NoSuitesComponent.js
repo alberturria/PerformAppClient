@@ -22,7 +22,7 @@ class NoSuitesComponent extends Component{
         return (
             <div>
                 <p>Actualmente no tiene ninguna prueba guardada, puede usar datos de prueba clicando en el botón</p>
-                <button onClick={this._createSampleData}>
+                <button onClick={this._createSampleData} className='modal-button'>
                     Usar datos de prueba
                 </button>
             </div>

@@ -1,10 +1,16 @@
 import React, { Component } from "react";
 import PropTypes from 'prop-types';
 import UserEntity from "../entities/UserEntity";
-import NewPatientUseCase from "../useCases/NewPatientUseCase";
 import DiagnosisEntity from "../entities/DiagnosisEntity";
 import EditDiagnosisUseCase from "../useCases/EditDiagnosisUseCase";
 import GetAllSuitesUseCase from "../useCases/GetAllSuitesUseCase";
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+
+
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 
 
@@ -17,6 +23,8 @@ class EditDetailedDiagnosisComponent extends Component{
             descriptionValue: props.diagnosisEntity.description,
             videoValue: props.diagnosisEntity.video,
             suiteValue:  props.diagnosisEntity.suite,
+            success: false,
+            error: false,
         }
 
 
@@ -25,6 +33,7 @@ class EditDetailedDiagnosisComponent extends Component{
         this.suiteRef = React.createRef();
         this.videoRef = React.createRef();
         this.handleChange = this.handleChange.bind(this);
+        this.handleClose = this.handleClose.bind(this);
         this.editDiagnosis = this.editDiagnosis.bind(this);
     }
 
@@ -57,13 +66,21 @@ class EditDetailedDiagnosisComponent extends Component{
            userEntity.userId, this.suiteRef.current.value)
         const editDiagnosisUseCase = new EditDiagnosisUseCase(userEntity.userId, diagnosisInfo);
         editDiagnosisUseCase.run()
+        .then(() => {
+            this.setState({success: true})
+        })
+        .catch(() => {
+            this.setState({error: true});
+        });
     }
 
-
+    handleClose () {
+        this.setState({success: false, error:false});
+     };
 
 
     render() {
-        const { nameValue, descriptionValue, suiteValue, suitesOptions } = this.state;
+        const { nameValue, descriptionValue, suiteValue, suitesOptions, success, error} = this.state;
         const { diagnosisEntity } = this.props;
         return (
             <div className="main-pane">
@@ -115,6 +132,16 @@ class EditDetailedDiagnosisComponent extends Component{
                 onClick={this.editDiagnosis}>
                     Editar diagnóstico
                 </button>
+                <Snackbar open={success} autoHideDuration={4000} onClose={this.handleClose}>
+                    <Alert  severity="success">
+                    El diagnóstico ha sido editado correctamente
+                    </Alert>
+                </Snackbar>
+                <Snackbar open={error} autoHideDuration={4000} onClose={this.handleClose}>
+                    <Alert  severity="error">
+                    El diagnóstico no ha podido ser editado
+                    </Alert>
+                </Snackbar>
             </div>
         )
     }

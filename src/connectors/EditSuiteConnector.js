@@ -30,7 +30,7 @@ export default class EditSuiteConnector extends NewSuiteConnectorInterface {
           return response.status;
         })
         .catch((error) => { 
-          return error;
+          return Promise.reject(error);
         })
       }
 

@@ -31,7 +31,7 @@ export default class EditDiagnosisConnector extends EditDiagnosisConnectorInterf
           this.diagnosisEntity = new DiagnosisEntity(diagnosis.id, diagnosis.name, diagnosis.description, diagnosis.video, diagnosis.suite_id, diagnosis.owner_id);
         })
         .catch((error) => { 
-          return error;
+          return Promise.reject(error);
         })
       }
 
