@@ -54,11 +54,11 @@ class CreateUserComponent extends Component{
         return (
             <div className="registration-pane">
                 <h3>Nuevo usuario</h3>
-                <p className="registration-attribute">Username</p>
+                <p className="registration-attribute">Nombre de usuario</p>
                 <input type="text" ref={this.usernameRef} className="input-login"/>
-                <p className="registration-attribute">Email</p>
+                <p className="registration-attribute">Correo electrónico</p>
                 <input type="email" ref={this.emailRef} className="input-login"/>
-                <p className="registration-attribute">Password</p>
+                <p className="registration-attribute">Contraseña</p>
                 <input type="password" ref={this.passwordRef} className="input-login"/>
                 <button type="button" className="registration-button" onClick={this._handleClick}>Crear usuario</button>
                 <p>Para volver a la página principal pulse <a onClick={backToInitCallback} className="link">aquí</a></p>

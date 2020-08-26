@@ -106,9 +106,13 @@ class DiagnosisMainPaneComponent extends Component{
     _renderCreateSampleDiagnoses() {
         const { diagnoses, loading } = this.state;
         if ((!diagnoses || diagnoses.length === 0) && !loading) {
-            return (<button className="modal-button" onClick={this._createSampleDiagnoses}>
+            return (
+                <div className='informative-main-pane-message'>
+                <p>Actualmente no tiene ningún diagnóstico guardado, puede usar datos de prueba clicando en el botón</p>
+                <button className="modal-button" onClick={this._createSampleDiagnoses}>
                     Usar datos de prueba
-            </button>
+                </button>
+            </div>
             );
         }
     }

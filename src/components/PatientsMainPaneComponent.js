@@ -105,9 +105,13 @@ class PatientsMainPaneComponent extends Component{
     _renderCreateSamplePatients() {
         const { patients, loading } = this.state;
         if ((!patients || patients.length === 0) && !loading) {
-            return (<button className="modal-button" onClick={this._createSamplePatients}>
+            return (
+                <div className='informative-main-pane-message'>
+                <p>Actualmente no tiene ningún diagnóstico guardado, puede usar datos de prueba clicando en el botón</p>
+                <button className="modal-button" onClick={this._createSamplePatients}>
                     Usar datos de prueba
-            </button>
+                </button>
+            </div>
             );
         }
     }

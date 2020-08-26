@@ -26,7 +26,7 @@ export default class CreateSampleDiagnosesConnector extends CreateSampleDiagnose
         
         for (let index = 0; index < Object.keys(diagnoses.data).length; index++){
           const diagnosis = diagnoses.data[index];
-          const diagnosisEntity = new DiagnosisEntity(diagnosis.id, diagnosis.description, diagnosis.video, diagnosis.owner_id, diagnosis.suite_id);
+          const diagnosisEntity = new DiagnosisEntity(diagnosis.id, diagnosis.name, diagnosis.description, diagnosis.video, diagnosis.owner_id, diagnosis.suite_id);
           
             returnedDiagnoses.push(diagnosisEntity);
         }

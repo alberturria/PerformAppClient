@@ -159,9 +159,12 @@ li a {
 }
 
 .nav-logo{
-  height: 44px;
-  background-color: chartreuse;
-  /*background-image: url(./images/PerformAppSmall.png);*/
+  height: 60px;
+  background-color: #87D4D8;
+  background-image: url(/static/media/logo-header.b346bb9e.png);
+  background-size: auto 55px;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .nav-main-list {
