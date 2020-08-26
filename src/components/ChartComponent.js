@@ -60,7 +60,7 @@ class ChartComponent extends Component {
 	render() {
 
         const { dataPoints, secondDataPoints, stripLines } = this.state;
-        const { title } = this.props;
+        const { title, yLegend, xLegend } = this.props;
         let options = {}
 
         if (secondDataPoints) {
@@ -74,10 +74,11 @@ class ChartComponent extends Component {
                     fontSize: 20,
                 },
                 axisX: {
-                    stripLines: stripLines
+                    stripLines: stripLines,
+                    title: xLegend,
                 },
                 axisY: {
-                    title: "Amplitud (µV)",
+                    title: yLegend,
                     includeZero: false
                 },
                 data: [{
@@ -109,10 +110,11 @@ class ChartComponent extends Component {
                     fontSize: 20,
                 },
                 axisX: {
-                    stripLines: stripLines
+                    stripLines: stripLines,
+                    title: xLegend,
                 },
                 axisY: {
-                    title: "Amplitud (µV)",
+                    title: yLegend,
                     includeZero: false
                 },
                 data: [{
@@ -134,6 +136,8 @@ export default ChartComponent;
 
 ChartComponent.propTypes = {
     title: PropTypes.string.isRequired,
+    yLegend: PropTypes.string,
+    xLegend: PropTypes.string,
     data: PropTypes.array.isRequired,
     start: PropTypes.number,
     secondData: PropTypes.array,
@@ -141,4 +145,6 @@ ChartComponent.propTypes = {
 
 ChartComponent.defaultProps = {
     start: 0,
+    yLegend: 'Amplitud (µV)',
+    xLegend: 'Tiempo (0.25s)',
 }

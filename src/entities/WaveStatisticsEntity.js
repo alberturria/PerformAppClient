@@ -1,6 +1,6 @@
 export default class WaveStatisticsEntity{
     constructor (id, kurtosis, entropy, maximum, minimum, zeroCrossingCounts, arithmeticMean, harmonicMean,
-        geometricMean, trimmedMean, median, mode, variance) {
+        geometricMean, trimmedMean, median, mode, variance, energy, mdf, mnf) {
         this.id = id;
         this.kurtosis = kurtosis;
         this.entropy = entropy;
@@ -14,5 +14,8 @@ export default class WaveStatisticsEntity{
         this.median = median;
         this.mode = mode;
         this.variance = variance;
+        this.energy = energy;
+        this.mdf = mdf;
+        this.mnf = mnf
     }
 }

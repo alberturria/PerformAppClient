@@ -53,10 +53,10 @@ class LogComponent extends Component{
         const { needCreateCallback } = this.props;
         return (
             <div className="registration-pane">
-                <h3>Registrese</h3>
+                <h3>Regístrese</h3>
                 <p className="registration-attribute">Email</p>
                 <input type="email" ref={this.emailRef} className="input-login"/>
-                <p className="registration-attribute">Password</p>
+                <p className="registration-attribute">Constraseña</p>
                 <input type="password" ref={this.passwordRef} className="input-login"/>
                 <button type="button" className="registration-button" onClick={this._handleClick}>Log in</button>
 

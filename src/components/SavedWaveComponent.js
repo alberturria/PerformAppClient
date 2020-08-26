@@ -22,6 +22,7 @@ class SavedWaveComponent extends Component{
         this._parseMuscleName = this._parseMuscleName.bind(this);
         this._getRmsSections = this._getRmsSections.bind(this);
         this._renderStatistics = this._renderStatistics.bind(this);
+        this._renderMDFMNF = this._renderMDFMNF.bind(this);
     }
 
     componentDidMount() {
@@ -55,7 +56,7 @@ class SavedWaveComponent extends Component{
                 <div className="single-muscle-container">
                     <div className='wave-parameter-container'>
                         <p>
-                            <span className='parameter'>Kurtosis:</span> {statisticsEntity.kurtosis.toFixed(3)}
+                            <span className='parameter'>Curtosis:</span> {statisticsEntity.kurtosis.toFixed(3)}
                         </p>
                         <p>
                             <span className='parameter'>Entropía:</span> {statisticsEntity.entropy.toFixed(3)}
@@ -83,9 +84,6 @@ class SavedWaveComponent extends Component{
                     </div>
                     <div className='wave-parameter-container'>
                         <p>
-                            <span className='parameter'>Media recortada:</span> {statisticsEntity.trimmedMean.toFixed(3)}
-                        </p>
-                        <p>
                            <span className='parameter'> Mediana:</span> {statisticsEntity.median.toFixed(3)}
                         </p>
                         <p>
@@ -98,6 +96,24 @@ class SavedWaveComponent extends Component{
                 </div>
                 )
         }else{
+            return null;
+        }
+    }
+
+    _renderMDFMNF() {
+        const { statisticsEntity } = this.props;
+        if (statisticsEntity){
+            return(
+                <div className='dual-chart-container'>
+                    <div className='flex-chart-container'>
+                        <ChartComponent title="Frecuencia media" data={statisticsEntity.mnf} xLegend='Ventana temporal' yLegend='Hz' />
+                    </div>
+                    <div className='flex-chart-container'>
+                        <ChartComponent title="Frecuencia mediana" data={statisticsEntity.mdf} xLegend='Ventana temporal' yLegend='PSD [V**2/Hz]' />
+                    </div>
+                </div>
+            )
+        } else {
             return null;
         }
     }
@@ -143,11 +159,11 @@ class SavedWaveComponent extends Component{
                 <div className="single-muscle-container">
                     <div>
                         <p> <span className='wave-field'>Nombre del músculo:</span> {parsedMuscle}</p>
-                        <p> <span className='wave-field'>RMS medio:</span> {avgRms} </p> 
+                        <p> <span className='wave-field'>RMS medio:</span> {avgRms} µV</p> 
                     </div>
                     <div>
-                        <p> <span className='wave-field'>Máxima contracción voluntaria:</span> {mvc} </p> 
-                        <p> <span className='wave-field'>Máxima contracción voluntaria histórica: </span>{historicMvc} </p>
+                        <p> <span className='wave-field'>Máxima contracción voluntaria:</span> {mvc} µV</p> 
+                        <p> <span className='wave-field'>Máxima contracción voluntaria histórica: </span>{historicMvc} µV</p>
                     </div>
                 </div>
                 <ChartComponent ref={this.rmsChartRef} title="RMS" data={rms} />
@@ -159,6 +175,7 @@ class SavedWaveComponent extends Component{
                 {this._renderSpinner()}
                 {this._renderSections()}
                 {this._renderStatistics()}
+                {this._renderMDFMNF()}
             </div>
         )
     }

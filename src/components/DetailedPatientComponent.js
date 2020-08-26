@@ -166,7 +166,7 @@ class DetailedPatientComponent extends Component{
                     </div>
                     <div className='patient-info-container'>
                         <p>
-                            <span className='parameter'>Edad:</span> {patientEntity.age}
+                            <span className='parameter'>Edad:</span> {patientEntity.age} años
                         </p>
                         <p>
                             <span className='parameter'>Teléfono:</span> {patientEntity.phoneNumber}

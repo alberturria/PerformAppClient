@@ -29,7 +29,8 @@ export default class GetWaveStatisticsConnector extends GetWaveStatisticsConnect
 
           for (let index = 0; index < Object.keys(data).length; index++){
             const statisticEntity = new WaveStatisticsEntity(data[index]._id, data[index].kurtosis, data[index].entropy, data[index].maximum, data[index].minimum, data[index].zero_crossing_counts,
-               data[index].arithmetic_mean, data[index].harmonic_mean, data[index].geometric_mean, data[index].trimmed_mean, data[index].median, data[index].mode, data[index].variance);
+               data[index].arithmetic_mean, data[index].harmonic_mean, data[index].geometric_mean, data[index].trimmed_mean, data[index].median, data[index].mode, data[index].variance, data[index].energy,
+               data[index].mdf, data[index].mnf);
             
               this.returnedStatistics.push(statisticEntity);
           }
