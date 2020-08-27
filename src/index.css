@@ -161,7 +161,7 @@ li a {
 .nav-logo{
   height: 60px;
   background-color: #87D4D8;
-  background-image: url(/static/media/logo-header.b346bb9e.png);
+  background-image: url(https://public-performapp-bucket.s3.eu-west-2.amazonaws.com/logo-header.png);
   background-size: auto 55px;
   background-repeat: no-repeat;
   background-position: center;
