@@ -51,7 +51,7 @@ class GroupSignalChartComponent extends Component {
 	render() {
 
         const { dataPoints, stripLines } = this.state;
-        const { title, names } = this.props;
+        const { title, names, legendX } = this.props;
         let options = {}
 
         if (dataPoints) {
@@ -65,7 +65,8 @@ class GroupSignalChartComponent extends Component {
                     fontSize: 20,
                 },
                 axisX: {
-                    stripLines: stripLines
+                    stripLines: stripLines,
+                    title: legendX,
                 },
                 axisY: {
                     title: "Amplitud (µV)",
@@ -143,6 +144,7 @@ GroupSignalChartComponent.propTypes = {
     data: PropTypes.arrayOf(PropTypes.array).isRequired,
     names: PropTypes.arrayOf(PropTypes.string).isRequired,
     start: PropTypes.number,
+    legendX: PropTypes.string,
 }
 
 GroupSignalChartComponent.defaultProps = {

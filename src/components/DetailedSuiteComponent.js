@@ -288,8 +288,13 @@ class DetailedSuiteComponent extends Component{
         const rawNames = [];
         const filteredData = [];
         const filteredNames = [];
+        
         for (var i=0; i < waves.length; i+=1) {
-            rawData.push(waves[i].raw);
+            const wave_cutted_raw = [];
+            for (var j=0; j < waves.length; j+=25){
+                wave_cutted_raw.push(waves.raw[j]);
+            }
+            rawData.push(wave_cutted_raw);
             rawNames.push(waves[i].muscle.split('_')[1]);
             filteredData.push(waves[i].rms);
             filteredNames.push(waves[i].muscle.split('_')[1]);
@@ -310,10 +315,10 @@ class DetailedSuiteComponent extends Component{
                 <div className='informative-main-pane-message'>
                     <div className='dual-chart-container'>
                         <div className='flex-chart-container'>
-                            <GroupSignalChartComponent title='Señales sin filtrar' data={rawData} names={rawNames}/>
+                            <GroupSignalChartComponent title='Señales sin filtrar' data={rawData} names={rawNames}  legendX='Tiempo (0.025s)'/>
                         </div>
                         <div className='flex-chart-container'>
-                            <GroupSignalChartComponent title='Señales filtradas' data={filteredData} names={filteredNames}/>
+                            <GroupSignalChartComponent title='Señales filtradas' data={filteredData} names={filteredNames} legendX='Tiempo (0.25s)'/>
                         </div>
                     </div>
                     {this._renderFatigueAnalysis()}
