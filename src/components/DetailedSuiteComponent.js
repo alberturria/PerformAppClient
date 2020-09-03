@@ -292,7 +292,7 @@ class DetailedSuiteComponent extends Component{
         for (var i=0; i < waves.length; i+=1) {
             const wave_cutted_raw = [];
             for (var j=0; j < waves.length; j+=25){
-                wave_cutted_raw.push(waves.raw[j]);
+                wave_cutted_raw.push(waves[i].raw[j]);
             }
             rawData.push(wave_cutted_raw);
             rawNames.push(waves[i].muscle.split('_')[1]);
