@@ -3,10 +3,10 @@ import GetAllSuitesConnector from "../connectors/GetAllSuitesConnector";
 
 export default class GetAllSuitesUseCase extends GetAllSuitesUseCaseInterface {
 
-    constructor(userId) {
+    constructor(userEntity) {
         super();
-        this.userId = userId;
-        this.getAllSuitesConnector = new GetAllSuitesConnector(this.userId);
+        this.userEntity = userEntity;
+        this.getAllSuitesConnector = new GetAllSuitesConnector(this.userEntity);
     }
 
     run() {

@@ -4,11 +4,11 @@ import NewDiagnosisConnector from '../connectors/NewDiagnosisConnector.js';
 
 export default class NewDiagnosisUseCase extends NewDiagnosisUseCaseInterface {
 
-    constructor(userId, diagnosisEntity) {
+    constructor(userEntity, diagnosisEntity) {
         super();
-        this.userId = userId;
+        this.userEntity = userEntity;
         this.diagnosisEntity = diagnosisEntity;
-        this.newDiagnosisConnector = new NewDiagnosisConnector(this.userId, this.diagnosisEntity);
+        this.newDiagnosisConnector = new NewDiagnosisConnector(this.userEntity, this.diagnosisEntity);
     }
 
     run() {

@@ -51,7 +51,7 @@ class EditDetailedSuiteComponent extends Component{
         if (suiteEntity.customFields.length > 0){
             this.setState({customFields: suiteEntity.customFields});
         }
-        const getAllDiagnosesUseCase = new GetAllDiagnosesUseCase(userEntity.userId);
+        const getAllDiagnosesUseCase = new GetAllDiagnosesUseCase(userEntity);
         getAllDiagnosesUseCase.run()
         .then(() => {
             const diagnoses = getAllDiagnosesUseCase.getResult();
@@ -64,7 +64,7 @@ class EditDetailedSuiteComponent extends Component{
         });
 
         this.setState({ loading: true });
-        const getAllPatientsUseCase = new GetAllPatientsUseCase(userEntity.userId);
+        const getAllPatientsUseCase = new GetAllPatientsUseCase(userEntity);
         getAllPatientsUseCase.run()
         .then(() => {
             const patients = getAllPatientsUseCase.getResult();
@@ -122,7 +122,7 @@ class EditDetailedSuiteComponent extends Component{
             customFieldsEntities.push(customFieldEntity);
         }
         const suiteInfo = new SuiteEntity(suiteEntity.id, this.nameRef.current.value, startDate, userEntity.userId, userEntity.username, this.patientRef.current.value, null, this.diagnosisRef.current.value, null, csv, video, customFieldsEntities, this.typeRef.current.value);
-        const editSuiteUseCase = new EditSuiteUseCase(userEntity.userId, suiteInfo);
+        const editSuiteUseCase = new EditSuiteUseCase(userEntity, suiteInfo);
         editSuiteUseCase.run()
         .then(() => {
             this.setState({success: true})

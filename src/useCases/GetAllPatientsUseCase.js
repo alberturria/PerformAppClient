@@ -3,10 +3,10 @@ import GetAllPatientsConnector from "../connectors/GetAllPatientsConnector";
 
 export default class GetAllPatientsUseCase extends GetAllPatientsUseCaseInterface {
 
-    constructor(userId) {
+    constructor(userEntity) {
         super();
-        this.userId = userId;
-        this.getAllPatientsConnector = new GetAllPatientsConnector(this.userId);
+        this.userEntity = userEntity;
+        this.getAllPatientsConnector = new GetAllPatientsConnector(this.userEntity);
     }
 
     run() {

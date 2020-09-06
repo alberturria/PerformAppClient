@@ -6,6 +6,7 @@ import DeleteSuiteUseCase from "../useCases/DeleteSuiteUseCase";
 import Spinner from "react-bootstrap/Spinner";
 import ExportSuiteUseCase from "../useCases/ExportSuiteUseCase";
 import SelectOptionsEntity from "../entities/SelectOptionsEntity";
+import UserEntity from "../entities/UserEntity";
 
 
 
@@ -27,8 +28,8 @@ class SuiteElementListComponent extends Component{
     }
 
     _deleteSuite(closeCallback) {
-        const { suiteEntity, reloadSuitesCallback } = this.props;
-        const deleteSuiteUseCase = new DeleteSuiteUseCase(suiteEntity.userId, suiteEntity.id);
+        const { suiteEntity, userEntity, reloadSuitesCallback } = this.props;
+        const deleteSuiteUseCase = new DeleteSuiteUseCase(userEntity, suiteEntity.id);
         deleteSuiteUseCase.run()
         .then(()=> {
             closeCallback();
@@ -50,9 +51,9 @@ class SuiteElementListComponent extends Component{
     }
 
     _exportToPDF(closeCallback) {
-        const { suiteEntity, reloadSuitesCallback } = this.props;
+        const { suiteEntity, reloadSuitesCallback, userEntity } = this.props;
         const selectedOptionsEntity = new SelectOptionsEntity(this.exportPatientRef.current.checked, this.exportDiagnosisRef.current.checked, this.exportMusclesRef.current.checked);
-        const exportSuiteUseCase = new ExportSuiteUseCase(suiteEntity.userId, suiteEntity.id, selectedOptionsEntity);
+        const exportSuiteUseCase = new ExportSuiteUseCase(userEntity, suiteEntity.id, selectedOptionsEntity);
         exportSuiteUseCase.run()
         .then(()=> {
             closeCallback();
@@ -205,4 +206,5 @@ SuiteElementListComponent.propTypes = {
     loadSuiteCallback: PropTypes.func.isRequired,
     editSuiteCallback: PropTypes.func.isRequired,
     reloadSuitesCallback: PropTypes.func.isRequired,
+    userEntity: PropTypes.instanceOf(UserEntity).isRequired,
 }

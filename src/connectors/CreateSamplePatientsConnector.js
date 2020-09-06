@@ -4,11 +4,11 @@ import PatientEntity from '../entities/PatientEntity';
 import CreateSamplePatientsConnectorInterface from '../interfaces/connectors/CreateSamplePatientsConnectorInterface';
 
 export default class CreateSamplePatientsConnector extends CreateSamplePatientsConnectorInterface {
-    constructor(userId) {
+    constructor(userEntity) {
         super();
 
-        this.userId = userId;
-        this.url = `${process.env.REACT_APP_URL}${this.userId}/patients-sample-data`;
+        this.userEntity = userEntity;
+        this.url = `${process.env.REACT_APP_URL}${this.userEntity.userId}/patients-sample-data`;
     }
 
     createSamplePatients() {
@@ -18,6 +18,7 @@ export default class CreateSamplePatientsConnector extends CreateSamplePatientsC
           url: this.url,
           headers: {
               'Content-Type': 'application/json;charset=utf-8',
+              'Authorization': `Token ${this.userEntity.token}`
           },
           withCredentials: false,
       })

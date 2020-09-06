@@ -16,8 +16,8 @@ class App extends Component {
     this._logoutUser = this._logoutUser.bind(this);
   }
 
-  _logUser(userId, username){
-    this.setState({logged: true, needsCreateUser: false, loggedUserId: userId, username: username});
+  _logUser(userId, username, token){
+    this.setState({logged: true, needsCreateUser: false, loggedUserId: userId, username: username, token: token});
   }
 
   _needCreateCallback() {
@@ -33,8 +33,8 @@ class App extends Component {
   }
 
   render(){
-    const {logged, needsCreateUser, loggedUserId, username} = this.state;
-    const userEntity = new UserEntity(loggedUserId, username);
+    const {logged, needsCreateUser, loggedUserId, username, token} = this.state;
+    const userEntity = new UserEntity(loggedUserId, username, token);
     if (logged){
       return (<Menu logOutCallback={this._logoutUser} userEntity={userEntity} />);
     }

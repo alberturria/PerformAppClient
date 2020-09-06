@@ -3,10 +3,10 @@ import CreateSampleDiagnosesConnector from '../connectors/CreateSampleDiagnosesC
 
 export default class CreateSampleDiagnosesUseCase extends CreateSampleDiagnosesUseCaseInterface {
 
-    constructor(userId) {
+    constructor(userEntity) {
         super();
-        this.userId = userId;
-        this.createSampleDiagnosesConnector = new CreateSampleDiagnosesConnector(this.userId);
+        this.userEntity = userEntity;
+        this.createSampleDiagnosesConnector = new CreateSampleDiagnosesConnector(this.userEntity);
     }
 
     run() {

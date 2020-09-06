@@ -4,12 +4,12 @@ import GetFatigueAnalysisConnectorInterface from '../interfaces/connectors/GetFa
 import FatigueEntity from '../entities/FatigueEntity';
 
 export default class GetFatigueAnalysisConnector extends GetFatigueAnalysisConnectorInterface{
-    constructor(userId, suiteId) {
+    constructor(userEntity, suiteId) {
         super();
 
-        this.userId = userId;
+        this.userEntity = userEntity;
         this.suiteId = suiteId;
-        this.url = `${process.env.REACT_APP_URL}${this.userId}/fatigue-analysis/${this.suiteId}`;
+        this.url = `${process.env.REACT_APP_URL}${this.userEntity.userId}/fatigue-analysis/${this.suiteId}`;
     }
 
     getFatigueAnalysis() {
@@ -19,6 +19,7 @@ export default class GetFatigueAnalysisConnector extends GetFatigueAnalysisConne
           url: this.url,
           headers: {
               'Content-Type': 'application/json;charset=utf-8',
+              'Authorization': `Token ${this.userEntity.token}`
           },
           withCredentials: false,
       })

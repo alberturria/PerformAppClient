@@ -28,7 +28,7 @@ class DiagnosisElementListComponent extends Component{
 
     _deleteDiagnosis(closeCallback) {
         const { diagnosisEntity, reloadDiagnosesCallback, userEntity } = this.props;
-        const deleteDiagnosisUseCase = new DeleteDiagnosisUseCase(userEntity.userId, diagnosisEntity.id);
+        const deleteDiagnosisUseCase = new DeleteDiagnosisUseCase(userEntity, diagnosisEntity.id);
         deleteDiagnosisUseCase.run()
         .then(()=> {
             closeCallback();
@@ -50,9 +50,9 @@ class DiagnosisElementListComponent extends Component{
     }
 
     _sendMail(closeCallback) {
-        const { diagnosisEntity } = this.props;
+        const { diagnosisEntity, userEntity } = this.props;
         const selectedOptionsEntity = new SelectOptionsEntity(this.exportPatientRef.current.checked, this.exportDiagnosisRef.current.checked, this.exportMusclesRef.current.checked);
-        const sendMailUseCase = new SendMailUseCase(diagnosisEntity.ownerId, diagnosisEntity.suiteId, selectedOptionsEntity);
+        const sendMailUseCase = new SendMailUseCase(userEntity, diagnosisEntity.suiteId, selectedOptionsEntity);
         sendMailUseCase.run()
         .then(()=> {
             closeCallback();

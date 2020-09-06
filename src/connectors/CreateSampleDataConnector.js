@@ -2,11 +2,11 @@ import axios from 'axios';
 import CreateSampleDataConnectorInterface from '../interfaces/connectors/CreateSampleDataConnectorInterface';
 
 export default class CreateSampleDataConnector extends CreateSampleDataConnectorInterface {
-    constructor(userId) {
+    constructor(userEntity) {
         super();
 
-        this.userId = userId;
-        this.url = `${process.env.REACT_APP_URL}${this.userId}/create-sample-data`;
+        this.userEntity = userEntity;
+        this.url = `${process.env.REACT_APP_URL}${this.userEntity.userId}/create-sample-data`;
     }
 
     createSampleData() {
@@ -18,6 +18,7 @@ export default class CreateSampleDataConnector extends CreateSampleDataConnector
           data: data,
           headers: {
               'Content-Type': 'application/json;charset=utf-8',
+              'Authorization': `Token ${this.userEntity.token}`
           },
           withCredentials: false,
       })

@@ -11,7 +11,7 @@ class NoSuitesComponent extends Component{
 
     _createSampleData() {
         const { userEntity, reloadSuitesCallback } = this.props;
-        const createSampleDataUseCase = new CreateSampleDataUseCase(userEntity.userId); 
+        const createSampleDataUseCase = new CreateSampleDataUseCase(userEntity); 
         createSampleDataUseCase.run()
         .then(() => {
             reloadSuitesCallback();

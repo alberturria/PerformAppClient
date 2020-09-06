@@ -48,7 +48,7 @@ class DiagnosisMainPaneComponent extends Component{
     loadAllDiagnoses() {
         const { userEntity } = this.props;
         this.setState({ loading: true });
-        const getAllDiagnosesUseCase = new GetAllDiagnosesUseCase(userEntity.userId);
+        const getAllDiagnosesUseCase = new GetAllDiagnosesUseCase(userEntity);
         getAllDiagnosesUseCase.run()
         .then(() => {
             const diagnoses = getAllDiagnosesUseCase.getResult();
@@ -65,7 +65,7 @@ class DiagnosisMainPaneComponent extends Component{
 
     loadDiagnosis(diagnosisId) {
         const { userEntity } = this.props;
-        const getDiagnosisUseCase = new GetDiagnosisUseCase(userEntity.userId, diagnosisId); 
+        const getDiagnosisUseCase = new GetDiagnosisUseCase(userEntity, diagnosisId); 
         getDiagnosisUseCase.run()
         .then(() => {
             const diagnosis = getDiagnosisUseCase.getDiagnosisEntity();
@@ -77,7 +77,7 @@ class DiagnosisMainPaneComponent extends Component{
 
     showEditDiagnosis(diagnosisId) {
         const { userEntity } = this.props;
-        const getDiagnosisUseCase = new GetDiagnosisUseCase(userEntity.userId, diagnosisId); 
+        const getDiagnosisUseCase = new GetDiagnosisUseCase(userEntity, diagnosisId); 
         getDiagnosisUseCase.run()
         .then(() => {
             const diagnosis = getDiagnosisUseCase.getDiagnosisEntity();
@@ -95,7 +95,7 @@ class DiagnosisMainPaneComponent extends Component{
     _createSampleDiagnoses() {
         const { userEntity } = this.props;
         this.setState({ loading: true });
-        const createSampleDiagnosesUseCase = new CreateSampleDiagnosesUseCase(userEntity.userId);
+        const createSampleDiagnosesUseCase = new CreateSampleDiagnosesUseCase(userEntity);
         createSampleDiagnosesUseCase.run()
         .then(() => {
             const diagnoses = createSampleDiagnosesUseCase.getDiagnoses();

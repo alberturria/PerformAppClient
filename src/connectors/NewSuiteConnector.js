@@ -2,16 +2,16 @@ import axios from 'axios';
 import NewSuiteConnectorInterface from '../interfaces/connectors/NewSuiteConnectorInterface';
 
 export default class NewSuiteConnector extends NewSuiteConnectorInterface {
-    constructor(userId, suiteEntity) {
+    constructor(userEntity, suiteEntity) {
         super();
 
-        this.userId = userId;
+        this.userEntity = userEntity;
         this.suiteEntity = suiteEntity;
         this.formData = new FormData();
         this.formData.append('csv', this.suiteEntity.csv);
         this.formData.append('video', this.suiteEntity.video);
         this._includeSuiteEntityToFormData();
-        this.url = `${process.env.REACT_APP_URL}${this.userId}/suites-catalog`;
+        this.url = `${process.env.REACT_APP_URL}${this.userEntity.userId}/suites-catalog`;
     }
 
     createSuite() {
@@ -22,6 +22,7 @@ export default class NewSuiteConnector extends NewSuiteConnectorInterface {
           data: this.formData,
           headers: {
               'Content-Type': 'multipart/form-data',
+              'Authorization': `Token ${this.userEntity.token}`
           },
           withCredentials: false,
       })

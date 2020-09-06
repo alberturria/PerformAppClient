@@ -4,11 +4,11 @@ import NewPatientConnector from '../connectors/NewPatientConnector.js';
 
 export default class NewPatientUseCase extends NewPatientUseCaseInterface {
 
-    constructor(userId, patientEntity) {
+    constructor(userEntity, patientEntity) {
         super();
-        this.userId = userId;
+        this.userEntity = userEntity;
         this.patientEntity = patientEntity;
-        this.newPatientConnector = new NewPatientConnector(this.userId, this.patientEntity);
+        this.newPatientConnector = new NewPatientConnector(this.userEntity, this.patientEntity);
     }
 
     run() {

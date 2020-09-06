@@ -3,11 +3,11 @@ import GetWaveStatisticsConnector from "../connectors/GetWaveStatisticsConnector
 
 export default class GetWaveStatisticsUseCase extends GetWaveStatisticsUseCaseInterface {
 
-    constructor(userId, suiteId) {
+    constructor(userEntity, suiteId) {
         super();
-        this.userId = userId;
+        this.userEntity = userEntity;
         this.suiteId = suiteId;
-        this.getWaveStatisticsConnector = new GetWaveStatisticsConnector(this.userId, this.suiteId);
+        this.getWaveStatisticsConnector = new GetWaveStatisticsConnector(this.userEntity, this.suiteId);
     }
 
     run() {

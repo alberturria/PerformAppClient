@@ -4,11 +4,11 @@ import PatientEntity from '../entities/PatientEntity';
 import GetAllPatientsConnectorInterface from '../interfaces/connectors/GetAllPatientsConnectorInterface';
 
 export default class GetAllPatientsConnector extends GetAllPatientsConnectorInterface {
-    constructor(userId) {
+    constructor(userEntity) {
         super();
 
-        this.userId = userId;
-        this.url = `${process.env.REACT_APP_URL}${this.userId}/patients`;
+        this.userEntity = userEntity;
+        this.url = `${process.env.REACT_APP_URL}${this.userEntity.userId}/patients`;
     }
 
     getAllPatients() {
@@ -18,6 +18,7 @@ export default class GetAllPatientsConnector extends GetAllPatientsConnectorInte
           url: this.url,
           headers: {
               'Content-Type': 'application/json;charset=utf-8',
+              'Authorization': `Token ${this.userEntity.token}`
           },
           withCredentials: false,
       })

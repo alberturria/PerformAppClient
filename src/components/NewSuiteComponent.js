@@ -48,7 +48,7 @@ class NewSuiteComponent extends Component{
     componentDidMount() {
         const { userEntity } = this.props;
         this.setState({ loading: true });
-        const getAllDiagnosesUseCase = new GetAllDiagnosesUseCase(userEntity.userId);
+        const getAllDiagnosesUseCase = new GetAllDiagnosesUseCase(userEntity);
         getAllDiagnosesUseCase.run()
         .then(() => {
             const diagnoses = getAllDiagnosesUseCase.getResult();
@@ -61,7 +61,7 @@ class NewSuiteComponent extends Component{
         });
 
         this.setState({ loading: true });
-        const getAllPatientsUseCase = new GetAllPatientsUseCase(userEntity.userId);
+        const getAllPatientsUseCase = new GetAllPatientsUseCase(userEntity);
         getAllPatientsUseCase.run()
         .then(() => {
             const patients = getAllPatientsUseCase.getResult();
@@ -115,7 +115,7 @@ class NewSuiteComponent extends Component{
             customFieldsEntities.push(customFieldEntity);
         }
         const suiteInfo = new SuiteEntity(null, this.nameRef.current.value, startDate, userEntity.userId, userEntity.username, this.patientRef.current.value, null, this.diagnosisRef.current.value, null, csv, video, customFieldsEntities);
-        const newSuiteUseCase = new NewSuiteUseCase(userEntity.userId, suiteInfo);
+        const newSuiteUseCase = new NewSuiteUseCase(userEntity, suiteInfo);
         newSuiteUseCase.run()
         .then(() => {
             this.setState({success: true})

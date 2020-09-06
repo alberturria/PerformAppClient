@@ -3,11 +3,11 @@ import EditPatientConnector from "../connectors/EditPatientConnector";
 
 export default class EditPatientUseCase extends EditPatientUseCaseInterface {
 
-    constructor(userId, patientEntity) {
+    constructor(userEntity, patientEntity) {
         super();
-        this.userId = userId;
+        this.userEntity = userEntity;
         this.patientEntity = patientEntity;
-        this.editPatientConnector = new EditPatientConnector(this.userId, this.patientEntity);
+        this.editPatientConnector = new EditPatientConnector(this.userEntity, this.patientEntity);
     }
 
     run() {

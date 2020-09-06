@@ -4,12 +4,12 @@ import GetWaveStatisticsConnectorInterface from '../interfaces/connectors/GetWav
 import WaveStatisticsEntity from '../entities/WaveStatisticsEntity';
 
 export default class GetWaveStatisticsConnector extends GetWaveStatisticsConnectorInterface{
-    constructor(userId, suiteId) {
+    constructor(userEntity, suiteId) {
         super();
 
-        this.userId = userId;
+        this.userEntity = userEntity;
         this.suiteId = suiteId;
-        this.url = `${process.env.REACT_APP_URL}${this.userId}/wave-statistics/${this.suiteId}`;
+        this.url = `${process.env.REACT_APP_URL}${this.userEntity.userId}/wave-statistics/${this.suiteId}`;
     }
 
     getStatistics() {
@@ -19,6 +19,7 @@ export default class GetWaveStatisticsConnector extends GetWaveStatisticsConnect
           url: this.url,
           headers: {
               'Content-Type': 'application/json;charset=utf-8',
+              'Authorization': `Token ${this.userEntity.token}`
           },
           withCredentials: false,
       })

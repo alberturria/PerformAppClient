@@ -22,7 +22,7 @@ class PatientElementListComponent extends Component{
 
     _deletePatient(closeCallback) {
         const { patientEntity, reloadPatientsCallback, userEntity } = this.props;
-        const deleteSuiteUseCase = new DeletePatientUseCase(userEntity.userId, patientEntity.id);
+        const deleteSuiteUseCase = new DeletePatientUseCase(userEntity, patientEntity.id);
         deleteSuiteUseCase.run()
         .then(()=> {
             closeCallback();

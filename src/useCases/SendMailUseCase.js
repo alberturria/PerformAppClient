@@ -3,12 +3,12 @@ import SendMailConnector from "../connectors/SendMailConnector";
 
 export default class SendMailUseCase extends SendMailUseCaseInterface {
 
-    constructor(userId, suiteId, selectedOptions) {
+    constructor(userEntity, suiteId, selectedOptions) {
         super();
-        this.userId = userId;
+        this.userEntity = userEntity;
         this.suiteId = suiteId;
         this.selectedOptions = selectedOptions;
-        this.sendMailConnector = new SendMailConnector(this.userId, this.suiteId, this.selectedOptions);
+        this.sendMailConnector = new SendMailConnector(this.userEntity, this.suiteId, this.selectedOptions);
     }
 
     run() {

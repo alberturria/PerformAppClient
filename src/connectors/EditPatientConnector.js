@@ -4,15 +4,15 @@ import PatientEntity from '../entities/PatientEntity';
 import SuiteEntity from '../entities/SuiteEntity';
 
 export default class EditPatientConnector extends EditPatientConnectorInterface {
-    constructor(userId, patientEntity) {
+    constructor(userEntity, patientEntity) {
         super();
 
-        this.userId = userId;
+        this.userEntity = userEntity;
         this.patientEntity = patientEntity;
         this.formData = new FormData();
         this.formData.append('photo', this.patientEntity.photo);
         this._includePatientEntityToFormData();
-        this.url = `${process.env.REACT_APP_URL}${this.userId}/patients/${this.patientEntity.id}`;
+        this.url = `${process.env.REACT_APP_URL}${this.userEntity.userId}/patients/${this.patientEntity.id}`;
     }
 
     editPatient() {
@@ -23,6 +23,7 @@ export default class EditPatientConnector extends EditPatientConnectorInterface 
           data: this.formData,
           headers: {
               'Content-Type': 'multipart/form-data',
+              'Authorization': `Token ${this.userEntity.token}`
           },
           withCredentials: false,
       })

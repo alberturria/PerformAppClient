@@ -29,7 +29,7 @@ class NewDiagnosisComponent extends Component{
 
     componentDidMount() {
         const {userEntity} = this.props;
-        const getAllSuitesUseCase = new GetAllSuitesUseCase(userEntity.userId);
+        const getAllSuitesUseCase = new GetAllSuitesUseCase(userEntity);
         getAllSuitesUseCase.run()
         .then(() => {
             const suites = getAllSuitesUseCase.getResult();
@@ -60,7 +60,7 @@ class NewDiagnosisComponent extends Component{
             suiteId = null;
         }
         const diagnosisInfo = new DiagnosisEntity(null, this.nameRef.current.value, this.descriptionRef.current.value, video , userEntity.userId, suiteId)
-        const newDiagnosisUseCase = new NewDiagnosisUseCase(userEntity.userId, diagnosisInfo);
+        const newDiagnosisUseCase = new NewDiagnosisUseCase(userEntity, diagnosisInfo);
         newDiagnosisUseCase.run()
         .then(() => {
             this.setState({success: true})

@@ -3,11 +3,11 @@ import GetDiagnosisConnector from "../connectors/GetDiagnosisConnector";
 
 export default class GetDiagnosisUseCase extends GetDiagnosisUseCaseInterface {
 
-    constructor(userId, diagnosisId) {
+    constructor(userEntity, diagnosisId) {
         super();
-        this.userId = userId;
+        this.userEntity = userEntity;
         this.diagnosisId = diagnosisId;
-        this.getDiagnosisConnector = new GetDiagnosisConnector(this.userId, this.diagnosisId);
+        this.getDiagnosisConnector = new GetDiagnosisConnector(this.userEntity, this.diagnosisId);
     }
 
     run() {

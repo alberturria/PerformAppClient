@@ -2,13 +2,13 @@ import axios from 'axios';
 import ImportDataConnectorInterface from '../interfaces/connectors/ImportDataConnectorInterface';
 
 export default class ImportDataConnector extends ImportDataConnectorInterface {
-    constructor(userId, data) {
+    constructor(userEntity, data) {
         super();
 
-        this.userId = userId;
+        this.userEntity = userEntity;
         this.formData = new FormData();
         this.formData.append('file', data);
-        this.url = `${process.env.REACT_APP_URL}import-data/${this.userId}`;
+        this.url = `${process.env.REACT_APP_URL}import-data/${this.userEntity.userId}`;
     }
 
     import() {
@@ -19,6 +19,7 @@ export default class ImportDataConnector extends ImportDataConnectorInterface {
           data: this.formData,
           headers: {
               'Content-Type': 'multipart/form-data',
+              'Authorization': `Token ${this.userEntity.token}`
           },
           withCredentials: false,
       })

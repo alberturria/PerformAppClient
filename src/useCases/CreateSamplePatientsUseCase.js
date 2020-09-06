@@ -3,10 +3,10 @@ import CreateSamplePatientsConnector from '../connectors/CreateSamplePatientsCon
 
 export default class CreateSamplePatientsUseCase extends CreateSamplePatientsUseCaseInterface {
 
-    constructor(userId) {
+    constructor(userEntity) {
         super();
-        this.userId = userId;
-        this.createSamplePatientsConnector = new CreateSamplePatientsConnector(this.userId);
+        this.userEntity = userEntity;
+        this.createSamplePatientsConnector = new CreateSamplePatientsConnector(this.userEntity);
     }
 
     run() {

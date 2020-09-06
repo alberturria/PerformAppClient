@@ -3,11 +3,11 @@ import DeleteSuiteConnector from "../connectors/DeleteSuiteConnector";
 
 export default class DeleteSuiteUseCase extends DeleteSuiteUseCaseInterface {
 
-    constructor(userId, suiteId) {
+    constructor(userEntity, suiteId) {
         super();
-        this.userId = userId;
+        this.userEntity = userEntity;
         this.suiteId = suiteId;
-        this.deleteSuiteConnector = new DeleteSuiteConnector(this.userId, this.suiteId);
+        this.deleteSuiteConnector = new DeleteSuiteConnector(this.userEntity, this.suiteId);
     }
 
     run() {

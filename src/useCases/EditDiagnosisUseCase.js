@@ -3,11 +3,11 @@ import EditDiagnosisConnector from "../connectors/EditDiagnosisConnector";
 
 export default class EditDiagnosisUseCase extends EditDiagnosisUseCaseInterface {
 
-    constructor(userId, diagnosisEntity) {
+    constructor(userEntity, diagnosisEntity) {
         super();
-        this.userId = userId;
+        this.userEntity = userEntity;
         this.diagnosisEntity = diagnosisEntity;
-        this.editDiagnosisConnector = new EditDiagnosisConnector(this.userId, this.diagnosisEntity);
+        this.editDiagnosisConnector = new EditDiagnosisConnector(this.userEntity, this.diagnosisEntity);
     }
 
     run() {

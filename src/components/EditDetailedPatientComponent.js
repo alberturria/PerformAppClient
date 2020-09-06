@@ -49,7 +49,7 @@ class EditDetailedPatientComponent extends Component{
         const { image } = this.state;
         const patientInfo = new PatientEntity(patientEntity.id, this.nameRef.current.value, this.emailRef.current.value, this.genderRef.current.value,
             this.ageRef.current.value, this.phoneRef.current.value, image , userEntity.userId)
-        const editPatientUseCase = new EditPatientUseCase(userEntity.userId, patientInfo);
+        const editPatientUseCase = new EditPatientUseCase(userEntity, patientInfo);
         editPatientUseCase.run()
         .then(() => {
             this.setState({success: true})

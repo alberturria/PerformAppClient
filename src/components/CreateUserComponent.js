@@ -31,7 +31,8 @@ class CreateUserComponent extends Component{
             const userInformation = createUserUseCase.getUserId();
             const userId = userInformation['userId'];
             const username = userInformation['username'];
-            logUserCallback(userId, username);
+            const token = userInformation['token'];
+            logUserCallback(userId, username, token);
         })
     }
 

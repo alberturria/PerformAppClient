@@ -25,7 +25,7 @@ export default class CreateUserConnector extends CreateUserConnectorInterface {
       })
         .then((response) => 
         {
-          this.userInfo = {userId: response.data.user_id, username: response.data.username };
+          this.userInfo = {userId: response.data.user_id, username: response.data.username, token: response.data.token };
         })
         .catch(error => console.log(error))
       

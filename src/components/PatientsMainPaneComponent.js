@@ -46,7 +46,7 @@ class PatientsMainPaneComponent extends Component{
     loadAllPatients() {
         const { userEntity } = this.props;
         this.setState({ loading: true });
-        const getAllPatientsUseCase = new GetAllPatientsUseCase(userEntity.userId);
+        const getAllPatientsUseCase = new GetAllPatientsUseCase(userEntity);
         getAllPatientsUseCase.run()
         .then(() => {
             const patients = getAllPatientsUseCase.getResult();
@@ -63,7 +63,7 @@ class PatientsMainPaneComponent extends Component{
 
     loadPatient(patientId) {
         const { userEntity } = this.props;
-        const getPatientUseCase = new GetPatientUseCase(userEntity.userId, patientId); 
+        const getPatientUseCase = new GetPatientUseCase(userEntity, patientId); 
         getPatientUseCase.run()
         .then(() => {
             const patient = getPatientUseCase.getPatientEntity();
@@ -76,7 +76,7 @@ class PatientsMainPaneComponent extends Component{
 
     showEditPatient(patientId) {
         const { userEntity } = this.props;
-        const getPatientUseCase = new GetPatientUseCase(userEntity.userId, patientId); 
+        const getPatientUseCase = new GetPatientUseCase(userEntity, patientId); 
         getPatientUseCase.run()
         .then(() => {
             const patient = getPatientUseCase.getPatientEntity();
@@ -94,7 +94,7 @@ class PatientsMainPaneComponent extends Component{
     _createSamplePatients() {
         const { userEntity } = this.props;
         this.setState({ loading: true });
-        const createSamplePatientsUseCase = new CreateSamplePatientsUseCase(userEntity.userId);
+        const createSamplePatientsUseCase = new CreateSamplePatientsUseCase(userEntity);
         createSamplePatientsUseCase.run()
         .then(() => {
             const patients = createSamplePatientsUseCase.getPatients();

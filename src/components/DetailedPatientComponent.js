@@ -32,7 +32,7 @@ class DetailedPatientComponent extends Component{
     loadAllSuites() {
         const { userEntity } = this.props;
         this.setState({ loading: true });
-        const getAllSuitesUseCase = new GetAllSuitesUseCase(userEntity.userId);
+        const getAllSuitesUseCase = new GetAllSuitesUseCase(userEntity);
         getAllSuitesUseCase.run()
         .then(() => {
             const suites = getAllSuitesUseCase.getResult();
@@ -42,7 +42,7 @@ class DetailedPatientComponent extends Component{
 
     loadSuite(suiteID) {
         const { userEntity } = this.props;
-        const getSuiteUseCase = new GetSuiteUseCase(userEntity.userId, suiteID); 
+        const getSuiteUseCase = new GetSuiteUseCase(userEntity, suiteID); 
         getSuiteUseCase.run()
         .then(() => {
             const suite = getSuiteUseCase.getSuiteEntity();

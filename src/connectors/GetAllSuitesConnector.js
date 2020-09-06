@@ -4,11 +4,11 @@ import SuiteEntity from '../entities/SuiteEntity';
 import CustomFieldEntity from '../entities/CustomFieldEntity';
 
 export default class GetAllSuitesConnector extends GetAllSuitesConnectorInterface {
-    constructor(userId) {
+    constructor(userEntity) {
         super();
 
-        this.userId = userId;
-        this.url = `${process.env.REACT_APP_URL}${this.userId}/suites-catalog`;
+        this.userEntity = userEntity;
+        this.url = `${process.env.REACT_APP_URL}${this.userEntity.userId}/suites-catalog`;
     }
 
     getAllSuites() {
@@ -18,6 +18,7 @@ export default class GetAllSuitesConnector extends GetAllSuitesConnectorInterfac
           url: this.url,
           headers: {
               'Content-Type': 'application/json;charset=utf-8',
+              'Authorization': `Token ${this.userEntity.token}`
           },
           withCredentials: false,
       })

@@ -32,28 +32,28 @@ class DetailedSuiteComponent extends Component{
 
     componentDidMount() {
         const { suite, userEntity } = this.props;
-        const getDiagnosisUseCase = new GetDiagnosisUseCase(userEntity.userId, suite.diagnosisId);
+        const getDiagnosisUseCase = new GetDiagnosisUseCase(userEntity, suite.diagnosisId);
         getDiagnosisUseCase.run()
         .then(() => {
             const diagnosis = getDiagnosisUseCase.getDiagnosisEntity();
             this.setState({ diagnosis: diagnosis, loading:false });
         });
 
-        const getPatientUseCase = new GetPatientUseCase(userEntity.userId, suite.patientId);
+        const getPatientUseCase = new GetPatientUseCase(userEntity, suite.patientId);
         getPatientUseCase.run()
         .then(() => {
             const patient = getPatientUseCase.getPatientEntity();
             this.setState({ patient: patient, loading:false });
         });
 
-        const getWaveStatisticsUseCase = new GetWaveStatisticsUseCase(userEntity.userId, suite.id);
+        const getWaveStatisticsUseCase = new GetWaveStatisticsUseCase(userEntity, suite.id);
         getWaveStatisticsUseCase.run()
         .then(() => {
             const statistics = getWaveStatisticsUseCase.getStatisticsEntities();
             this.setState({ statistics: statistics, loading:false });
         });
 
-        const getFatigueAnalysisUseCase = new GetFatigueAnalysisUseCase(userEntity.userId, suite.id);
+        const getFatigueAnalysisUseCase = new GetFatigueAnalysisUseCase(userEntity, suite.id);
         getFatigueAnalysisUseCase.run()
         .then(() => {
             const fatigueEntities = getFatigueAnalysisUseCase.getFatigueEntities();

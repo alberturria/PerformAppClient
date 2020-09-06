@@ -4,11 +4,11 @@ import GetFatigueAnalysisConnector from "../connectors/GetFatigueAnalysisConnect
 
 export default class GetFatigueAnalysisUseCase extends GetFatigueAnalysisUseCaseInterface {
 
-    constructor(userId, suiteId) {
+    constructor(userEntity, suiteId) {
         super();
-        this.userId = userId;
+        this.userEntity = userEntity;
         this.suiteId = suiteId;
-        this.getFatigueAnalysisConnector = new GetFatigueAnalysisConnector(this.userId, this.suiteId);
+        this.getFatigueAnalysisConnector = new GetFatigueAnalysisConnector(this.userEntity, this.suiteId);
     }
 
     run() {

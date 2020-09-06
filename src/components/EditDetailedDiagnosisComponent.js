@@ -40,7 +40,7 @@ class EditDetailedDiagnosisComponent extends Component{
     componentDidMount() {
         const { userEntity } = this.props;
         this.setState({ loading: true });
-        const getAllSuitesUseCase = new GetAllSuitesUseCase(userEntity.userId);
+        const getAllSuitesUseCase = new GetAllSuitesUseCase(userEntity);
         getAllSuitesUseCase.run()
         .then(() => {
             const suites = getAllSuitesUseCase.getResult();
@@ -64,7 +64,7 @@ class EditDetailedDiagnosisComponent extends Component{
         const { videoValue } = this.state;
         const diagnosisInfo = new DiagnosisEntity(diagnosisEntity.id, this.nameRef.current.value, this.descriptionRef.current.value, videoValue,
            userEntity.userId, this.suiteRef.current.value)
-        const editDiagnosisUseCase = new EditDiagnosisUseCase(userEntity.userId, diagnosisInfo);
+        const editDiagnosisUseCase = new EditDiagnosisUseCase(userEntity, diagnosisInfo);
         editDiagnosisUseCase.run()
         .then(() => {
             this.setState({success: true})

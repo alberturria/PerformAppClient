@@ -2,15 +2,15 @@ import axios from 'axios';
 import NewDiagnosisConnectorInterface from '../interfaces/connectors/NewDiagnosisConnectorInterface';
 
 export default class NewDiagnosisConnector extends NewDiagnosisConnectorInterface {
-    constructor(userId, diagnosisEntity) {
+    constructor(userEntity, diagnosisEntity) {
         super();
 
-        this.userId = userId;
+        this.userEntity = userEntity;
         this.diagnosisEntity = diagnosisEntity;
         this.formData = new FormData();
         this.formData.append('video', this.diagnosisEntity.video);
         this._includeDiagnosisEntityToFormData();
-        this.url = `${process.env.REACT_APP_URL}${this.userId}/diagnoses`;
+        this.url = `${process.env.REACT_APP_URL}${this.userEntity.userId}/diagnoses`;
     }
 
     createDiagnosis() {
@@ -21,6 +21,7 @@ export default class NewDiagnosisConnector extends NewDiagnosisConnectorInterfac
           data: this.formData,
           headers: {
               'Content-Type': 'multipart/form-data',
+              'Authorization': `Token ${this.userEntity.token}`
           },
           withCredentials: false,
       })

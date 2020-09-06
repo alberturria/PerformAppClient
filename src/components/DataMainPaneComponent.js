@@ -26,7 +26,7 @@ class DataMainPaneComponent extends Component{
 
     handleFile(data, fileInfo) {
         const { userEntity } = this.props;
-        const importDataUseCase = new ImportDataUseCase(userEntity.userId, data, fileInfo);
+        const importDataUseCase = new ImportDataUseCase(userEntity, data, fileInfo);
         importDataUseCase.run()
     }
 
@@ -37,7 +37,7 @@ class DataMainPaneComponent extends Component{
           csv: event.target.files[0]
         });
         
-        const importDataUseCase = new ImportDataUseCase(userEntity.userId, event.target.files[0]);
+        const importDataUseCase = new ImportDataUseCase(userEntity, event.target.files[0]);
         importDataUseCase.run();
     }
 

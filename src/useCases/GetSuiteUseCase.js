@@ -5,11 +5,11 @@ import GetSuiteConnector from "../connectors/GetSuiteConnector";
 
 export default class GetSuiteUseCase extends GetSuiteUseCaseInterface {
 
-    constructor(userId, suiteId) {
+    constructor(userEntity, suiteId) {
         super();
-        this.userId = userId;
+        this.userEntity = userEntity;
         this.suiteId = suiteId;
-        this.getSuiteConnector = new GetSuiteConnector(this.userId, this.suiteId);
+        this.getSuiteConnector = new GetSuiteConnector(this.userEntity, this.suiteId);
     }
 
     run() {

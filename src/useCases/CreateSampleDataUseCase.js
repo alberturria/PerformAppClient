@@ -3,10 +3,10 @@ import CreateSampleDataConnector from '../connectors/CreateSampleDataConnector.j
 
 export default class CreateSampleDataUseCase extends CreateSampleDataUseCaseInterface {
 
-    constructor(userId) {
+    constructor(userEntity) {
         super();
-        this.userId = userId;
-        this.createSampleDataConnector = new CreateSampleDataConnector(this.userId);
+        this.userEntity = userEntity;
+        this.createSampleDataConnector = new CreateSampleDataConnector(this.userEntity);
     }
 
     run() {

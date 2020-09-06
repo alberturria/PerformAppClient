@@ -43,7 +43,7 @@ class NewPatientComponent extends Component{
         const { image } = this.state;
         const patientInfo = new PatientEntity(null, this.nameRef.current.value, this.emailRef.current.value, this.genderRef.current.value,
             this.ageRef.current.value, this.phoneRef.current.value, image , userEntity.userId)
-        const newPatientUseCase = new NewPatientUseCase(userEntity.userId, patientInfo);
+        const newPatientUseCase = new NewPatientUseCase(userEntity, patientInfo);
         newPatientUseCase.run()
         .then(() => {
             this.setState({success: true})

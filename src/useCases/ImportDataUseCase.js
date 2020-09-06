@@ -3,11 +3,11 @@ import ImportDataConnector from "../connectors/ImportDataConnector";
 
 export default class ImportDataUseCase extends ImportDataUseCaseInterface {
 
-    constructor(userId, data) {
+    constructor(userEntity, data) {
         super();
-        this.userId = userId;
+        this.userEntity = userEntity;
         this.data = data;
-        this.importDataConnector = new ImportDataConnector(this.userId, this.data);
+        this.importDataConnector = new ImportDataConnector(this.userEntity, this.data);
     }
 
     run() {

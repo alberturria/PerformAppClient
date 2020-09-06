@@ -4,11 +4,11 @@ import CreateSampleDiagnosesConnectorInterface from '../interfaces/connectors/Cr
 import DiagnosisEntity from '../entities/DiagnosisEntity';
 
 export default class CreateSampleDiagnosesConnector extends CreateSampleDiagnosesConnectorInterface {
-    constructor(userId) {
+    constructor(userEntity) {
         super();
 
-        this.userId = userId;
-        this.url = `${process.env.REACT_APP_URL}${this.userId}/diagnoses-sample-data`;
+        this.userEntity = userEntity;
+        this.url = `${process.env.REACT_APP_URL}${this.userEntity.userId}/diagnoses-sample-data`;
     }
 
     createSampleDiagnoses() {
@@ -18,6 +18,7 @@ export default class CreateSampleDiagnosesConnector extends CreateSampleDiagnose
           url: this.url,
           headers: {
               'Content-Type': 'application/json;charset=utf-8',
+              'Authorization': `Token ${this.userEntity.token}`
           },
           withCredentials: false,
       })

@@ -2,12 +2,12 @@ import axios from 'axios';
 import DeleteSuiteConnectorInterface from '../interfaces/connectors/DeleteSuiteConnectorInterface';
 
 export default class DeleteSuiteConnector extends DeleteSuiteConnectorInterface {
-    constructor(userId, suiteId) {
+    constructor(userEntity, suiteId) {
         super();
 
-        this.userId = userId;
+        this.userEntity = userEntity;
         this.suiteId = suiteId;
-        this.url = `${process.env.REACT_APP_URL}${this.userId}/suites/${this.suiteId}`;
+        this.url = `${process.env.REACT_APP_URL}${this.userEntity.userId}/suites/${this.suiteId}`;
     }
 
     deleteSuite() {
@@ -17,6 +17,7 @@ export default class DeleteSuiteConnector extends DeleteSuiteConnectorInterface 
           url: this.url,
           headers: {
               'Content-Type': 'application/json;charset=utf-8',
+              'Authorization': `Token ${this.userEntity.token}`
           },
           withCredentials: false,
       })

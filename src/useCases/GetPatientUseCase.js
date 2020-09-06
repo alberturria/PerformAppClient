@@ -3,11 +3,11 @@ import GetPatientUseCaseInterface from "../interfaces/useCases/GetPatientUseCase
 
 export default class GetPatientUseCase extends GetPatientUseCaseInterface {
 
-    constructor(userId, patientId) {
+    constructor(userEntity, patientId) {
         super();
-        this.userId = userId;
+        this.userEntity = userEntity;
         this.patientId = patientId;
-        this.getPatientConnector = new GetPatientConnector(this.userId, this.patientId);
+        this.getPatientConnector = new GetPatientConnector(this.userEntity, this.patientId);
     }
 
     run() {

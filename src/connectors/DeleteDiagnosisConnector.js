@@ -2,12 +2,12 @@ import axios from 'axios';
 import DeleteDiagnosisConnectorInterface from '../interfaces/connectors/DeletePatientConnectorInterface copy';
 
 export default class DeleteDiagnosisConnector extends DeleteDiagnosisConnectorInterface {
-    constructor(userId, diagnosisId) {
+    constructor(userEntity, diagnosisId) {
         super();
 
-        this.userId = userId;
+        this.userEntity = userEntity;
         this.diagnosisId = diagnosisId;
-        this.url = `${process.env.REACT_APP_URL}${this.userId}/diagnoses/${this.diagnosisId}`;
+        this.url = `${process.env.REACT_APP_URL}${this.userEntity.userId}/diagnoses/${this.diagnosisId}`;
     }
 
     deleteDiagnosis() {
@@ -17,6 +17,7 @@ export default class DeleteDiagnosisConnector extends DeleteDiagnosisConnectorIn
           url: this.url,
           headers: {
               'Content-Type': 'application/json;charset=utf-8',
+              'Authorization': `Token ${this.userEntity.token}`
           },
           withCredentials: false,
       })

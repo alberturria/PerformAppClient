@@ -3,11 +3,11 @@ import DeleteDiagnosisConnector from "../connectors/DeleteDiagnosisConnector";
 
 export default class DeleteDiagnosisUseCase extends DeleteDiagnosisUseCaseInterface {
 
-    constructor(userId, diagnosisId) {
+    constructor(userEntity, diagnosisId) {
         super();
-        this.userId = userId;
+        this.userEntity = userEntity;
         this.diagnosisId = diagnosisId;
-        this.deleteDiagnosisConnector = new DeleteDiagnosisConnector(this.userId, this.diagnosisId);
+        this.deleteDiagnosisConnector = new DeleteDiagnosisConnector(this.userEntity, this.diagnosisId);
     }
 
     run() {

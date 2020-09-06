@@ -4,11 +4,11 @@ import NewSuiteConnector from '../connectors/NewSuiteConnector.js';
 
 export default class NewSuiteUseCase extends NewSuiteUseCaseInterface {
 
-    constructor(userId, suiteEntity) {
+    constructor(userEntity, suiteEntity) {
         super();
-        this.userId = userId;
+        this.userEntity = userEntity;
         this.suiteEntity = suiteEntity;
-        this.newSuiteConnector = new NewSuiteConnector(this.userId, this.suiteEntity);
+        this.newSuiteConnector = new NewSuiteConnector(this.userEntity, this.suiteEntity);
     }
 
     run() {

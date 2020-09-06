@@ -3,10 +3,10 @@ import GetAllDiagnosesConnector from "../connectors/GetAllDiagnosesConnector";
 
 export default class GetAllDiagnosesUseCase extends GetAllDiagnosesUseCaseInterface {
 
-    constructor(userId) {
+    constructor(userEntity) {
         super();
-        this.userId = userId;
-        this.getAllDiagnosesConnector = new GetAllDiagnosesConnector(this.userId);
+        this.userEntity = userEntity;
+        this.getAllDiagnosesConnector = new GetAllDiagnosesConnector(this.userEntity);
     }
 
     run() {

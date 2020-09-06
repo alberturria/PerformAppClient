@@ -3,15 +3,15 @@ import EditDiagnosisConnectorInterface from '../interfaces/connectors/EditDiagno
 import DiagnosisEntity from '../entities/DiagnosisEntity';
 
 export default class EditDiagnosisConnector extends EditDiagnosisConnectorInterface {
-    constructor(userId, diagnosisEntity) {
+    constructor(userEntity, diagnosisEntity) {
         super();
 
-        this.userId = userId;
+        this.userEntity = userEntity;
         this.diagnosisEntity = diagnosisEntity;
         this.formData = new FormData();
         this.formData.append('video', this.diagnosisEntity.video);
         this._includeDiagnosisEntityToFormData();
-        this.url = `${process.env.REACT_APP_URL}${this.userId}/diagnoses/${this.diagnosisEntity.id}`;
+        this.url = `${process.env.REACT_APP_URL}${this.userEntity.userId}/diagnoses/${this.diagnosisEntity.id}`;
     }
 
     editDiagnosis() {
@@ -22,6 +22,7 @@ export default class EditDiagnosisConnector extends EditDiagnosisConnectorInterf
           data: this.formData,
           headers: {
               'Content-Type': 'multipart/form-data',
+              'Authorization': `Token ${this.userEntity.token}`
           },
           withCredentials: false,
       })

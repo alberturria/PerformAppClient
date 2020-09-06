@@ -2,15 +2,15 @@ import axios from 'axios';
 import NewPatientConnectorInterface from '../interfaces/connectors/NewPatientConnectorInterface';
 
 export default class NewPatientConnector extends NewPatientConnectorInterface {
-    constructor(userId, patientEntity) {
+    constructor(userEntity, patientEntity) {
         super();
 
-        this.userId = userId;
+        this.userEntity = userEntity;
         this.patientEntity = patientEntity;
         this.formData = new FormData();
         this.formData.append('photo', this.patientEntity.photo);
         this._includePatientEntityToFormData();
-        this.url = `${process.env.REACT_APP_URL}${this.userId}/patients`;
+        this.url = `${process.env.REACT_APP_URL}${this.userEntity.userId}/patients`;
     }
 
     createPatient() {
@@ -21,6 +21,7 @@ export default class NewPatientConnector extends NewPatientConnectorInterface {
           data: this.formData,
           headers: {
               'Content-Type': 'multipart/form-data',
+              'Authorization': `Token ${this.userEntity.token}`
           },
           withCredentials: false,
       })

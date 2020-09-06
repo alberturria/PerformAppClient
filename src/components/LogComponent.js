@@ -31,8 +31,9 @@ class LogComponent extends Component{
             const userInformation = logUserUseCase.getUserId();
             const userId = userInformation['userId'];
             const username = userInformation['username'];
+            const token = userInformation['token'];
             if (userId !== null)
-                logUserCallback(userId, username);
+                logUserCallback(userId, username, token);
             else{
                 this.setState({error: true});
             }

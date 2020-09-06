@@ -3,11 +3,11 @@ import EditSuiteConnector from "../connectors/EditSuiteConnector";
 
 export default class EditSuiteUseCase extends EditSuiteUseCaseInterface {
 
-    constructor(userId, suiteEntity) {
+    constructor(userEntity, suiteEntity) {
         super();
-        this.userId = userId;
+        this.userEntity = userEntity;
         this.suiteEntity = suiteEntity;
-        this.editSuiteConnector = new EditSuiteConnector(this.userId, this.suiteEntity);
+        this.editSuiteConnector = new EditSuiteConnector(this.userEntity, this.suiteEntity);
     }
 
     run() {
